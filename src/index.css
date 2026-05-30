@@ -44,16 +44,14 @@ body {
 }
 
 @utility radial-gradient {
-    background: radial-gradient(
-            circle at center,
+    background: radial-gradient(circle at center,
             #434343 0%,
             #000 50%,
-            transparent 100%
-    );
+            transparent 100%);
 }
 
 @utility masked-img {
-    mask-image: url("/images/mask-img.png");
+    mask-image: url("/images/masked-img.png");
     mask-repeat: no-repeat;
     mask-position: center;
     mask-size: 50%;
@@ -66,6 +64,11 @@ body {
 
     nav {
         @apply fixed z-50 w-full;
+
+        img {
+            @apply w-10 h-auto object-contain;
+            /* w-10 tương đương width: 40px, bạn có thể đổi thành w-12 (48px) hoặc w-16 (64px) tùy ý */
+        }
 
         div {
             @apply flex md:flex-row flex-col md:justify-between items-center gap-5 py-5 lg:px-0 px-5 container mx-auto;
@@ -89,18 +92,24 @@ body {
     }
 
     #hero {
-        @apply relative z-10 min-h-dvh w-full border border-transparent;
+        @apply relative z-10 min-h-dvh w-full border border-transparent overflow-visible;
 
         h1 {
-            @apply md:mt-32 mt-40 text-8xl md:text-[20vw] leading-none text-center font-modern-negra;
+            @apply md:mt-32 mt-40 text-6xl md:text-[10vw] leading-tight text-center font-modern-negra;
         }
 
-        .left-leaf {
-            @apply absolute left-0 md:top-20 xl:top-36 2xl:top-52 md:bottom-auto -bottom-20 md:w-fit w-1/3;
+        .left-planet {
+            @apply absolute left-0 md:top-20 xl:top-36 2xl:top-52 md:bottom-auto -bottom-20;
+            @apply w-1/3 md:w-[35vw] max-w-xl z-[-1];
+            @apply object-cover object-left;
+            @apply -translate-x-1/2;
         }
 
-        .right-leaf {
-            @apply absolute right-0 md:bottom-0 xl:top-0 2xl:top-12 top-1/2 md:w-fit w-24;
+        .right-planet {
+            @apply absolute -right-0 md:top-28 xl:top-40 top-1/3;
+            @apply w-1/3 md:w-[30vw] max-w-xl z-[-1];
+            @apply object-cover object-right;
+            @apply translate-x-1/2;
         }
 
         .body {
@@ -140,11 +149,15 @@ body {
         @apply relative min-h-dvh w-full overflow-hidden;
 
         #c-left-leaf {
-            @apply absolute left-0 md:bottom-0 md:top-auto -top-20 md:w-fit w-1/3;
+            @apply absolute left-0 top-1/4 z-0;
+            @apply w-1/3 md:w-[20vw] max-w-xs object-contain;
+            @apply -translate-x-12;
         }
 
         #c-right-leaf {
-            @apply absolute right-0 md:bottom-0 md:top-auto -top-20 md:w-fit w-1/3;
+            @apply absolute -right-20 md:bottom-0 md:top-auto -top-20 md:w-fit w-1/3;
+            @apply w-1/3 md:w-[20vw] max-w-xs object-contain;
+            @apply -translate-x-12;
         }
 
         .list {
@@ -218,7 +231,7 @@ body {
         .top-grid {
             @apply grid grid-cols-1 xl:grid-cols-12 gap-5 mb-5 md:px-0 px-5;
 
-            > div {
+            >div {
                 @apply rounded-3xl overflow-hidden h-72 relative;
             }
 
@@ -230,7 +243,7 @@ body {
         .bottom-grid {
             @apply grid grid-cols-1 md:grid-cols-12 gap-5 md:px-0 px-5;
 
-            > div {
+            >div {
                 @apply rounded-3xl overflow-hidden h-72 relative;
             }
 
@@ -244,7 +257,7 @@ body {
         @apply flex-center flex-col min-h-dvh p-5 mt-20 relative radial-gradient;
 
         h2 {
-            @apply relative md:text-[20vw] text-8xl text-nowrap leading-none font-modern-negra text-center text-[#505050] mb-8;
+            @apply relative md:text-[20vw] text-8xl text-nowrap leading-none font-modern-negra text-center text-[#505050] mb-8 -translate-x-15;
         }
 
         .content {
@@ -278,15 +291,15 @@ body {
         @apply relative w-full md:mt-40 mt-0 2xl:px-0 px-5 py-20 radial-gradient;
 
         #m-left-leaf {
-            @apply object-contain absolute -bottom-20 left-0 md:w-fit w-1/3;
+            @apply object-contain absolute bottom-50 -left-60 w-1/3 md:max-w-[5000px];
         }
 
         #m-right-leaf {
-            @apply object-contain absolute -top-40 right-0 md:w-fit w-1/4;
+            @apply object-contain absolute -top-40 -right-40 w-1/4 md:max-w-[5000px];
         }
 
         .cocktail-tabs {
-            @apply grid md:grid-cols-4 grid-cols-2 md:gap-20 gap-10 sm:mb-32 mb-20 relative z-10 md:max-w-6xl md:mx-auto;
+            @apply grid md:grid-cols-4 grid-cols-2 md:gap-20 gap-10 sm:mb-20 mb-10 relative z-10 md:max-w-6xl md:mx-auto;
 
             button {
                 @apply md:text-3xl text-xl pb-2 cursor-pointer hover:text-yellow hover:border-yellow border-b-1 transition-colors font-modern-negra;
@@ -294,49 +307,57 @@ body {
         }
 
         .content {
-            @apply flex flex-col justify-between items-center container mx-auto relative;
+            @apply flex flex-col items-center container mx-auto relative min-h-[75vh] justify-center;
 
             .arrows {
-                @apply flex items-center justify-between w-full absolute;
+                /* Tăng z-index để mũi tên không bị ảnh che khuất và click dễ dàng */
+                @apply flex items-center justify-between w-full absolute top-1/2 -translate-y-1/2 z-20 pointer-events-none;
 
                 button {
-                    @apply text-white hover:text-yellow cursor-pointer transition-colors max-w-36;
+                    @apply text-white hover:text-yellow cursor-pointer transition-colors max-w-36 pointer-events-auto flex flex-col items-center gap-2;
 
                     span {
-                        @apply text-3xl font-modern-negra leading-none hidden md:block;
+                        @apply text-2xl font-modern-negra leading-none hidden md:block;
+                    }
+
+                    img {
+                        @apply w-8 h-8 object-contain;
                     }
                 }
             }
         }
 
         .cocktail {
-            @apply flex-center mt-10;
+            /* Cho phép vùng chứa ảnh mở rộng tối đa và đẩy z-index nằm dưới text/mũi tên nếu cần */
+            @apply flex justify-center items-center w-full max-w-2xl mx-auto relative z-10 my-5;
 
             img {
-                @apply object-contain h-[60vh];
+                /* Tăng kích thước ảnh lên scale lớn hơn */
+                @apply object-contain h-[65vh] w-auto max-w-full transform scale-110 transition-transform duration-500;
             }
         }
 
         .recipe {
-            @apply flex max-md:flex-col gap-10 md:items-center justify-between w-full lg:absolute bottom-0;
+            /* Bỏ lg:absolute để nó không đè xiên vẹo lên ảnh, giúp ảnh có không gian tự do */
+            @apply flex max-md:flex-col gap-10 md:items-start justify-between w-full mt-10 relative z-10 border-t border-white/10 pt-6;
 
             .info {
-                @apply space-y-4 lg:translate-y-20;
+                @apply space-y-2;
 
                 #title {
-                    @apply font-modern-negra md:text-6xl text-3xl text-yellow max-w-40;
+                    @apply font-modern-negra md:text-5xl text-3xl text-yellow max-w-xs;
                 }
             }
 
             .details {
-                @apply space-y-5 md:max-w-md text-left;
+                @apply space-y-4 md:max-w-xl text-left;
 
                 h2 {
-                    @apply md:text-5xl text-3xl font-serif;
+                    @apply md:text-4xl text-2xl font-serif text-white;
                 }
 
                 p {
-                    @apply md:text-lg pe-5;
+                    @apply md:text-base text-white/80 pe-5 leading-relaxed;
                 }
             }
         }
@@ -346,11 +367,11 @@ body {
         @apply relative md:mt-20 mt-0 px-4 text-center w-full overflow-hidden radial-gradient;
 
         #f-left-leaf {
-            @apply absolute bottom-0 left-0 pointer-events-none lg:w-fit w-1/3;
+            @apply absolute top-60 left-5 pointer-events-none w-1/3 max-w-[280px] lg:max-w-[320px];
         }
 
         #f-right-leaf {
-            @apply absolute top-0 right-0 pointer-events-none hidden lg:block;
+            @apply absolute top-1/2 -translate-y-1/2 right-[-10%] pointer-events-none hidden lg:block w-[50vw] max-w-[650px];
         }
 
         .content {
