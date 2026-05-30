@@ -42,7 +42,7 @@ const Art = () => {
 
 					<div className="cocktail-img">
 						<img
-							src="/images/Catching the star of hope.png."
+							src="/images/Catching the star of hope.png"
 							alt="cocktail"
 							className="abs-center masked-img size-full object-contain"
 						/>
