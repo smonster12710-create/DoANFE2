@@ -1,7 +1,7 @@
 import { useGSAP } from '@gsap/react'
 import gsap from 'gsap';
 import { constellationLists, nebulaLists } from '../../constants/index.js'
-
+import constellations from "../data/constellations.json";
 const Constellations = () => {
    useGSAP(() => {
       const parallaxTimeline = gsap.timeline({

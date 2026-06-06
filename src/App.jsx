@@ -9,6 +9,7 @@ import Art from './components/Art.jsx'
 import Menu from './components/Menu.jsx'
 import Contact from './components/Contact.jsx'
 import SolarSystem from './components/SolarSystem.jsx'
+import GalaxyExplorer from './components/GalaxyExplorer.jsx'
 
 gsap.registerPlugin(ScrollTrigger, SplitText);
 
@@ -21,6 +22,9 @@ const App = () => {
 			<About />
 			<Art />
 			<SolarSystem />
+
+			<GalaxyExplorer />
+
 			<Menu />
 			<Contact />
 		</main>
