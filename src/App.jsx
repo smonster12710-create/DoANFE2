@@ -8,6 +8,7 @@ import About from './components/About.jsx'
 import Art from './components/Art.jsx'
 import Menu from './components/Menu.jsx'
 import Contact from './components/Contact.jsx'
+import SolarSystem from './components/SolarSystem.jsx'
 
 gsap.registerPlugin(ScrollTrigger, SplitText);
 
@@ -19,6 +20,7 @@ const App = () => {
 			<Constellations />
 			<About />
 			<Art />
+			<SolarSystem />
 			<Menu />
 			<Contact />
 		</main>
