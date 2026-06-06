@@ -820,3 +820,9 @@ body {
         font-size: 13px;
     }
 }
+/* Ép thẻ canvas bên trong Stage luôn luôn phải fit 100% theo hộp cha */
+.solar-system-stage canvas {
+    width: 100% !important;
+    height: 100% !important;
+    display: block;
+}
