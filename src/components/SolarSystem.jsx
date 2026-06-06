@@ -705,23 +705,44 @@ const SolarSystem = () => {
           )}
 
           <div className="solar-system-controls">
-            <button type="button" onClick={() => setIsPlaying((value) => !value)}>
-              {isPlaying ? 'Tạm dừng' : 'Chạy tiếp'}
-            </button>
-            <button type="button" onClick={resetView}>Đặt lại góc nhìn</button>
-            <button type="button" onClick={toggleFullscreen}>{isFullscreen ? 'Thoát toàn màn hình' : 'Toàn màn hình'}</button>
-            <label>
-              Tốc độ
-              <input
-                type="range"
-                min="0.2"
-                max="5"
-                step="0.2"
-                value={speed}
-                onChange={(event) => setSpeed(Number(event.target.value))}
-              />
-              <span>{speed.toFixed(1)}x</span>
-            </label>
+            {/* HÀNG 1: Gom các nút chức năng thành icon tròn/vuông gọn gàng */}
+
+            <div className="control-buttons-row">
+              <button type="button" onClick={() => setIsPlaying((value) => !value)} title={isPlaying ? 'Tạm dừng' : 'Chạy tiếp'}>
+                <span className="btn-icon">{isPlaying ? '⏸' : '▶'}</span>
+                <span className="btn-text">{isPlaying ? 'Tạm dừng' : 'Chạy tiếp'}</span>
+              </button>
+              <button type="button" onClick={resetView} title="Đặt lại góc nhìn">
+                <span className="btn-icon">↺</span>
+                <span className="btn-text">Đặt lại góc nhìn</span>
+              </button>
+
+              <button type="button" onClick={toggleFullscreen} title="Toàn màn hình">
+                <span className="btn-icon">{isFullscreen ? '⛶' : '🗖'}</span>
+                <span className="btn-text">{isFullscreen ? 'Thoát màn hình' : 'Toàn màn hình'}</span>
+              </button>
+
+            </div>
+
+            {/* HÀNG 2: Thanh chỉnh tốc độ mảnh mai */}
+            <div className="speed-control-box">
+              <label>
+                {/* Bọc chữ "Tốc độ" vào span để dễ điều khiển bằng CSS */}
+                <span className="speed-label-text">Tốc độ: </span>
+
+                <input
+                  type="range"
+                  min="0.1"
+                  max="5"
+                  step="0.1"
+                  value={speed} /* Hoặc biến tốc độ hiện tại của cậu */
+                  onChange={(e) => setSpeed(parseFloat(e.target.value))}
+                />
+
+                {/* Con số hiển thị (Ví dụ: 1.0x) */}
+                <span className="speed-value">{speed.toFixed(1)}x</span>
+              </label>
+            </div>
           </div>
         </div>
 

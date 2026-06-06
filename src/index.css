@@ -395,6 +395,7 @@ body {
         }
     }
 }
+
 /* =========================
    SOLAR SYSTEM 360 SECTION
    Chức năng quan sát hệ mặt trời ngay bên dưới ảnh nghệ thuật.
@@ -820,9 +821,807 @@ body {
         font-size: 13px;
     }
 }
+
 /* Ép thẻ canvas bên trong Stage luôn luôn phải fit 100% theo hộp cha */
 .solar-system-stage canvas {
     width: 100% !important;
     height: 100% !important;
     display: block;
+}
+
+@media (max-width: 768px) {
+
+    /* 1. Đảm bảo khung chứa không có màu nền đen che khuất 3D */
+    .solar-system-stage {
+        background: transparent !important;
+        position: relative;
+    }
+
+    /* 2. Thu gọn và đẩy 2 nút chức năng ra góc màn hình (Floating) */
+    .solar-system-controls {
+        position: absolute;
+        bottom: 30px;
+        /* Đẩy sát xuống góc dưới */
+        right: 20px;
+        /* Né sang bên phải */
+        left: auto;
+        /* Hủy bỏ căn giữa nếu có */
+        top: auto;
+        width: auto;
+        /* Không cho chiếm 100% chiều rộng nữa */
+        height: auto;
+        /* Không cho chiếm 100% chiều cao nữa */
+        background: transparent !important;
+        /* Xóa màu nền bọc ngoài */
+
+        display: flex;
+        flex-direction: column;
+        /* Xếp dọc 2 nút */
+        gap: 10px;
+        z-index: 10;
+        /* Nổi lên trên Canvas để bấm được */
+    }
+
+    /* 3. Style lại cho 2 cái nút nhỏ nhắn, xinh xắn hơn */
+    .solar-system-controls button {
+        width: 130px;
+        /* Thu nhỏ chiều rộng nút */
+        padding: 10px;
+        font-size: 12px;
+        /* Chữ nhỏ lại cho tinh tế */
+        background: rgba(255, 255, 255, 0.1);
+        /* Nền mờ xuyên thấu */
+        backdrop-filter: blur(5px);
+        /* Hiệu ứng kính mờ chuẩn UI hiện đại */
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        color: #ffffff;
+        border-radius: 8px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    }
+}
+
+@media (max-width: 768px) {
+
+    /* 1. TẮT LUÔN CÁI BẢNG: Biến toàn bộ khung card thành trong suốt */
+    .planet-detail-card {
+        position: absolute;
+        inset: 0;
+        /* Phủ kín màn hình để làm tâm căn tọa độ cho chữ */
+        width: 100% !important;
+        height: 100% !important;
+        background: transparent !important;
+        /* XÓA BỎ NỀN ĐEN */
+        border: none !important;
+        /* XÓA BỎ VIỀN BẢNG */
+        box-shadow: none !important;
+        /* XÓA BỎ ĐỔ BÓNG BẢNG */
+        padding: 0 !important;
+        margin: 0 !important;
+        pointer-events: none;
+        /* CHÌA KHÓA: Cho phép ngón tay vuốt xuyên qua chữ để xoay 3D canvas */
+        z-index: 99;
+    }
+
+    /* Bật lại tính năng click/chạm cho riêng nút bấm và vùng chữ thông tin */
+    .planet-detail-back,
+    .planet-detail-info {
+        pointer-events: auto;
+    }
+
+    /* 2. KHỐI GÓC TRÊN BÊN PHẢI: Nút Quay lại bản đồ */
+    .planet-detail-back {
+        position: absolute;
+        top: 20px;
+        right: 15px;
+        left: auto !important;
+        padding: 6px 12px !important;
+        font-size: 12px !important;
+        background: rgba(255, 255, 255, 0.08) !important;
+        /* Nền nút mờ nhẹ */
+        border: 1px solid rgba(255, 255, 255, 0.2) !important;
+        border-radius: 20px !important;
+        /* Bo tròn kiểu viên thuốc cho tinh tế */
+        color: #fff !important;
+        cursor: pointer;
+    }
+
+    /* 3. KHU VỰC CHỨA CHỮ CHÍNH */
+    .planet-detail-info {
+        background: transparent !important;
+        padding: 0 !important;
+        width: 100%;
+        height: 100%;
+        position: relative;
+    }
+
+    /* Giấu cái chữ "Chòm sao ID" đi cho đỡ rác màn hình mobile */
+    .planet-detail-info>span {
+        display: none !important;
+    }
+
+    /* Đẩy Tên chòm sao (h3) và tên tiếng Anh (p) ra góc trên bên trái */
+    .planet-detail-info>h3 {
+        position: absolute;
+        top: 20px;
+        left: 15px;
+        margin: 0 !important;
+        font-size: 24px !important;
+        font-weight: bold !important;
+        color: #ffffff !important;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+        /* Tạo bóng đen sau chữ để nhìn rõ trên nền sao */
+    }
+
+    .planet-detail-info>p {
+        position: absolute;
+        top: 52px;
+        left: 15px;
+        margin: 0 !important;
+        font-size: 13px !important;
+        color: #cccccc !important;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+    }
+
+    /* 4. KHỐI KÝ HIỆU & THỨ HẠNG (Xếp dọc ngay dưới tên chòm sao) */
+    .planet-detail-info .detail-grid {
+        position: absolute;
+        top: 85px;
+        left: 15px;
+        display: flex !important;
+        /* Chuyển từ grid 2 cột sang flex xếp hàng dọc */
+        flex-direction: column;
+        gap: 10px !important;
+        background: transparent !important;
+        width: auto !important;
+    }
+
+    .planet-detail-info .detail-item {
+        background: transparent !important;
+        /* Xóa nền hộp nhỏ */
+        padding: 0 !important;
+        border: none !important;
+    }
+
+    .planet-detail-info .detail-item small {
+        font-size: 11px !important;
+        color: #888899 !important;
+        display: inline-block;
+        margin-right: 6px;
+        /* Đặt chữ tiêu đề và nội dung nằm cạnh nhau */
+    }
+
+    .planet-detail-info .detail-item p {
+        font-size: 14px !important;
+        display: inline-block;
+        color: #ffffff !important;
+        margin: 0 !important;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+    }
+
+    /* 5. KHỐI TÊN HÁN TỰ (Xếp dọc nối đuôi khối ký hiệu luôn) */
+    /* Tìm div bọc Hán tự (div có inline style của cậu) */
+    .planet-detail-info>div:not(.detail-grid) {
+        position: absolute;
+        top: 145px;
+        left: 15px;
+        background: transparent !important;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+
+    .planet-detail-info>div:not(.detail-grid) small {
+        font-size: 11px !important;
+        color: #888899 !important;
+        display: inline-block;
+        margin-right: 6px;
+    }
+
+    .planet-detail-info>div:not(.detail-grid) p {
+        font-size: 14px !important;
+        display: inline-block;
+        color: #ff60dd !important;
+        /* Màu hồng neon nổi bật */
+        margin: 0 !important;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    }
+
+    /* 6. KHỐI TỌA ĐỘ X, Y, Z: Đẩy xuống góc dưới bên trái */
+    .planet-detail-info ul {
+        position: absolute;
+        bottom: 115px;
+        /* Đẩy cao lên để không bị đè vào 2 nút ở đáy */
+        left: 15px;
+        margin: 0 !important;
+        padding: 0 !important;
+        display: flex;
+        flex-direction: column;
+        gap: 5px !important;
+    }
+
+    .planet-detail-info ul li {
+        font-size: 12px !important;
+        color: #ffffff !important;
+        list-style: none !important;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+    }
+
+    .planet-detail-info ul li b {
+        color: #888899 !important;
+        font-weight: normal !important;
+    }
+
+    /* 7. CĂN CHỈNH LẠI 2 NÚT ĐẶT LẠI GÓC NHÌN / TOÀN MÀN HÌNH NẰM NGANG Ở ĐÁY */
+    .solar-system-controls {
+        position: absolute;
+        bottom: 25px;
+        left: 50% !important;
+        right: auto !important;
+        top: auto !important;
+        transform: translateX(-50%);
+        /* Căn giữa màn hình */
+        display: flex !important;
+        flex-direction: row !important;
+        /* Xếp hàng ngang */
+        gap: 12px !important;
+        width: max-content !important;
+        height: auto !important;
+        background: transparent !important;
+    }
+
+    .solar-system-controls button {
+        white-space: nowrap !important;
+        width: auto !important;
+        padding: 8px 16px !important;
+        font-size: 12px !important;
+        background: rgba(255, 255, 255, 0.08) !important;
+        border: 1px solid rgba(255, 255, 255, 0.15) !important;
+        border-radius: 6px !important;
+        color: #fff !important;
+    }
+}
+
+@media (max-width: 768px) {
+
+    /* CẤU HÌNH CHO CÁI BẢNG BỌC NGOÀI */
+    .planet-detail-card {
+        /* 1. Biến cái bảng thành một cái khung vô hình phủ hết màn hình */
+        position: absolute;
+        inset: 0;
+        width: 100% !important;
+        height: 100% !important;
+        max-height: 100vh !important;
+
+        /* 2. XÓA BỎ HOÀN TOÀN CÁI BẢNG (Nền, viền, bóng, kính mờ bay màu hết) */
+        background: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
+
+        /* 3. CHÌA KHÓA: Cho phép ngón tay vuốt xuyên qua để kéo/xoay bản đồ 3D */
+        pointer-events: none !important;
+        z-index: 99;
+    }
+
+    /* KÍCH HOẠT LẠI cảm ứng cho nút bấm và các dòng chữ để người dùng vẫn chạm vào được */
+    .planet-detail-back,
+    .planet-detail-info,
+    .planet-detail-info * {
+        pointer-events: auto !important;
+    }
+
+    @media (max-width: 768px) {
+
+        /* 1. KHUNG CHA & KHUNG CHỨA TEXT: Vô hình hoàn toàn, ngón tay vuốt xuyên qua thoải mái */
+        .planet-detail-card,
+        .planet-detail-info {
+            position: absolute;
+            inset: 0;
+            width: 100% !important;
+            height: 100% !important;
+            background: transparent !important;
+            border: none !important;
+            box-shadow: none !important;
+            backdrop-filter: none !important;
+            -webkit-backdrop-filter: none !important;
+            padding: 0 !important;
+            margin: 0 !important;
+
+            /* CHÌA KHÓA VÀNG: Không nhận bất cứ cảm ứng nào, nhường hết cho map 3D */
+            pointer-events: none !important;
+            z-index: 99;
+        }
+
+        /* 2. CHỈ BẬT CẢM ỨNG cho nút quay lại (để người ta còn bấm click được) */
+        .planet-detail-back {
+            position: absolute;
+            top: 20px;
+            right: 15px;
+            left: auto !important;
+            padding: 6px 12px !important;
+            font-size: 12px !important;
+            background: rgba(0, 0, 0, 0.6) !important;
+            border: 1px solid rgba(255, 255, 255, 0.2) !important;
+            border-radius: 20px !important;
+            color: #fff !important;
+
+            /* Bật lại cảm ứng riêng cho nút này */
+            pointer-events: auto !important;
+            cursor: pointer;
+        }
+
+        /* 3. ĐỐI VỚI CÁC THẺ CHỮ (Tên chòm sao, Ký hiệu, Tọa độ...) */
+        /* Ngón tay chạm trúng chữ thì có thể chọn text, còn vuốt ra ngoài chữ là xoay map 3D */
+        .planet-detail-info h3,
+        .planet-detail-info p,
+        .planet-detail-info small,
+        .planet-detail-info ul,
+        .planet-detail-info li {
+            /* Cho phép nhận tương tác trực tiếp trên diện tích bề mặt của từng con chữ */
+            pointer-events: auto !important;
+        }
+
+        /* --- GIỮ NGUYÊN PHẦN ĐỊNH VỊ CHỮ TRÊN MÀN HÌNH CỦA CẬU --- */
+        .planet-detail-info>h3 {
+            position: absolute;
+            top: 20px;
+            left: 15px;
+            margin: 0 !important;
+            font-size: 24px !important;
+            color: #fff !important;
+            text-shadow: 0 2px 4px #000;
+        }
+
+        .planet-detail-info>p {
+            position: absolute;
+            top: 52px;
+            left: 15px;
+            margin: 0 !important;
+            font-size: 13px !important;
+            color: #ccc !important;
+            text-shadow: 0 2px 4px #000;
+        }
+
+        .planet-detail-info .detail-grid {
+            position: absolute;
+            top: 85px;
+            left: 15px;
+            display: flex !important;
+            flex-direction: column;
+            gap: 10px !important;
+            background: transparent !important;
+            width: auto !important;
+        }
+
+        .planet-detail-info .detail-item {
+            background: transparent !important;
+            padding: 0 !important;
+            border: none !important;
+        }
+
+        .planet-detail-info .detail-item small {
+            font-size: 11px !important;
+            color: #888899 !important;
+            display: inline-block;
+            margin-right: 6px;
+        }
+
+        .planet-detail-info .detail-item p {
+            font-size: 14px !important;
+            display: inline-block;
+            color: #ffffff !important;
+            margin: 0 !important;
+            text-shadow: 0 2px 4px #000;
+        }
+
+        .planet-detail-info>div:not(.detail-grid) {
+            position: absolute;
+            top: 145px;
+            left: 15px;
+            background: transparent !important;
+            padding: 0 !important;
+            margin: 0 !important;
+        }
+
+        .planet-detail-info>div:not(.detail-grid) small {
+            font-size: 11px !important;
+            color: #888899 !important;
+            display: inline-block;
+            margin-right: 6px;
+        }
+
+        .planet-detail-info>div:not(.detail-grid) p {
+            font-size: 14px !important;
+            display: inline-block;
+            color: #ff60dd !important;
+            margin: 0 !important;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .planet-detail-info ul {
+            position: absolute;
+            bottom: 115px;
+            left: 15px;
+            margin: 0 !important;
+            padding: 0 !important;
+            display: flex;
+            flex-direction: column;
+            gap: 5px !important;
+        }
+
+        .planet-detail-info ul li {
+            font-size: 12px !important;
+            color: #ffffff !important;
+            list-style: none !important;
+            text-shadow: 0 2px 4px #000;
+        }
+
+        .planet-detail-info ul li b {
+            color: #888899 !important;
+            font-weight: normal !important;
+        }
+    }
+}
+
+@media (max-width: 768px) {
+
+    /* 1. KHUNG TỔNG: Chuyển thành hàng dọc để tách nút và thanh tốc độ ra */
+    .solar-system-controls {
+        position: absolute;
+        bottom: 25px;
+        /* Khoảng cách an toàn với đáy màn hình mobile */
+        left: 50% !important;
+        right: auto !important;
+        top: auto !important;
+        transform: translateX(-50%);
+        /* Luôn căn giữa chính xác */
+
+        display: flex !important;
+        flex-direction: column !important;
+        /* Xếp dọc: Hàng nút ở trên, tốc độ ở dưới */
+        align-items: center !important;
+        gap: 15px !important;
+        /* Tạo khoảng cách thông thoáng giữa hàng nút và thanh trượt */
+
+        width: calc(100% - 40px) !important;
+        /* Giới hạn chiều ngang cách lề màn hình 20px mỗi bên */
+        max-width: 360px !important;
+        height: auto !important;
+        background: transparent !important;
+        pointer-events: auto !important;
+        /* Bật cảm ứng để bấm được */
+        z-index: 100;
+        box-sizing: border-box;
+    }
+
+    /* 2. ĐỊNH DẠNG RIÊNG CHO 3 NÚT BẤM (Tạm dừng, Đặt lại, Toàn màn hình) */
+    /* Ép 3 nút này tự động chia đều không gian trên cùng một hàng ngang */
+    .solar-system-controls>button {
+        flex: 1 !important;
+        /* Chia đều 1/3 chiều rộng cho mỗi nút */
+        display: inline-block;
+        white-space: nowrap !important;
+        /* Tuyệt đối không cho chữ nhảy xuống hàng */
+        padding: 10px 8px !important;
+        /* Tăng chiều cao nút lên chút cho dễ chạm ngón tay */
+        font-size: 11px !important;
+        text-align: center;
+
+        /* Style kính mờ mượt mà */
+        background: rgba(15, 15, 30, 0.7) !important;
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        border: 1px solid rgba(255, 255, 255, 0.15) !important;
+        border-radius: 8px !important;
+        color: #ffffff !important;
+    }
+
+    /* Mẹo tạo khoảng cách (margin) nhẹ giữa 3 cái nút với nhau để không bị dính lẹo */
+    .solar-system-controls>button:not(:last-child) {
+        margin-right: 8px;
+        /* Khoảng cách nhỏ giữa nút 1 -> nút 2 -> nút 3 */
+    }
+
+    /* 3. THANH CHỈNH TỐC ĐỘ (NẰM TRỌN VẸN Ở HÀNG DƯỚI) */
+    .speed-control-box {
+        width: 100% !important;
+        /* Giãn rộng bằng chiều ngang của cả cụm nút phía trên */
+        background: rgba(15, 15, 30, 0.7);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+        padding: 8px 12px;
+        box-sizing: border-box;
+    }
+
+    .speed-control-box label {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        /* Đẩy chữ "Tốc độ" sang trái, số "1.0x" sang phải */
+        width: 100%;
+        color: #888899;
+        font-size: 11px;
+        margin: 0;
+        gap: 12px;
+    }
+
+    /* Thanh input kéo slider ở giữa */
+    .speed-control-box input[type="range"] {
+        flex: 1;
+        /* Tự động kéo dài ra chiếm hết khoảng trống ở giữa */
+        height: 4px;
+        accent-color: #4ea3ff;
+        /* Nút tròn kéo màu xanh neon */
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 2px;
+        cursor: pointer;
+    }
+
+    /* Con số hiển thị tốc độ (ví dụ 0.2x, 5.0x) */
+    .speed-value {
+        color: #ffffff !important;
+        font-weight: bold;
+        font-family: monospace;
+        min-width: 32px;
+        text-align: right;
+    }
+
+    /* 1. KHUNG CHỨA 3 NÚT ICON: Ép luôn luôn nằm trên một hàng ngang */
+    .control-buttons-row {
+        display: flex !important;
+        flex-direction: row !important;
+        /* Ép xếp hàng ngang */
+        justify-content: flex-start;
+        /* Hoặc center tùy cậu muốn căn giữa hay lệch trái */
+        align-items: center;
+        gap: 12px;
+        /* Khoảng cách giữa các nút tròn */
+        width: 100%;
+        /* Cho phép chiếm hết chiều ngang hàng trên */
+
+        /* Tạo khoảng cách thông thoáng với thanh slider ở dưới */
+    }
+
+    /* 2. ĐỐI VỚI CÁC NÚT ICON TRÒN */
+    .solar-system-controls button {
+        width: 40px !important;
+        /* Cố định chiều rộng */
+        height: 40px !important;
+        /* Cố định chiều cao để tạo hình tròn hoàn hảo */
+        flex-shrink: 0 !important;
+        /* CẤM trình duyệt tự ý bóp méo hoặc co nhỏ nút */
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+
+        /* Các thuộc tính background, border, border-radius: 50% của cậu giữ nguyên nhé */
+    }
+
+    /* 3. KHUNG BAO TỔNG CỦA CẢ CỤM (Cái hộp bo góc to đùm trong ảnh) */
+    .solar-system-controls {
+        display: flex !important;
+        flex-direction: column !important;
+        /* Hàng trên là nút, hàng dưới là thanh tốc độ */
+        align-items: stretch;
+        /* Cho các thành phần bên trong giãn đều */
+        padding: 16px;
+        /* Khoảng đệm xung quanh bảng */
+        width: 180px;
+        /* Tăng nhẹ chiều rộng của cả cái bảng lên một chút cho thoải mái */
+        box-sizing: border-box;
+    }
+}
+
+/* DÀNH CHO BẢN PC/DESKTOP (Nằm ngoài các thẻ @media) */
+.solar-system-controls {
+    position: absolute;
+    bottom: 30px;
+    /* Cách đáy màn hình PC một khoảng thoáng đãng */
+    left: 50%;
+    transform: translateX(-50%);
+    /* Căn giữa chính xác giữa màn hình */
+
+    display: flex;
+    flex-direction: row;
+    /* Ép tất cả xếp thành MỘT HÀNG NGANG duy nhất */
+    align-items: center;
+    /* Căn giữa các nút và thanh trượt theo chiều dọc */
+    gap: 20px;
+    /* Khoảng cách rộng rãi giữa các nút, không bao giờ bị dính sát */
+
+    background: rgba(10, 10, 20, 0.5);
+    /* Nền kính mờ tối nhẹ cho cả cụm */
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 30px;
+    /* Bo tròn kiểu viên thuốc dài siêu sang */
+    padding: 10px 24px;
+    /* Khoảng đệm bên trong hộp */
+
+    width: max-content;
+    /* Tự động phình to vừa khít theo các nút bên trong */
+    z-index: 100;
+}
+
+/* Style cho từng nút bấm trên PC */
+.solar-system-controls button {
+    margin: 5px;
+    background: rgba(255, 255, 255, 0.05) !important;
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+    color: #ffffff !important;
+    padding: 8px 16px !important;
+    font-size: 13px !important;
+    border-radius: 20px !important;
+    /* Bo tròn nút cho đồng bộ với khung cha */
+    cursor: pointer;
+    white-space: nowrap;
+    /* Chống nhảy chữ */
+    transition: all 0.2s ease;
+}
+
+/* Hiệu ứng khi rê chuột vào nút trên PC */
+.solar-system-controls button:hover {
+    background: rgba(255, 255, 255, 0.15) !important;
+    border-color: rgba(255, 255, 255, 0.3) !important;
+    transform: translateY(-1px);
+    /* Nhấc nhẹ nút lên khi hover */
+}
+
+/* Khối bọc thanh trượt tốc độ trên PC */
+.speed-control-box {
+    display: flex;
+    align-items: center;
+}
+
+.speed-control-box label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    /* Khoảng cách giữa chữ "Tốc độ" - thanh kéo - số x */
+    color: #aaaabb;
+    font-size: 13px;
+    margin: 0;
+    white-space: nowrap;
+}
+
+/* Thanh trượt kéo dài thanh thoát trên PC */
+.speed-control-box input[type="range"] {
+    width: 100px;
+    /* Trên PC cho thanh kéo dài ra nhìn cho sang */
+    height: 4px;
+    accent-color: #4ea3ff;
+    /* Nút tròn kéo màu xanh công nghệ */
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 2px;
+    cursor: pointer;
+}
+
+/* Con số hiển thị tốc độ */
+.speed-value {
+    color: #4ea3ff !important;
+    font-weight: bold;
+    font-family: monospace;
+    min-width: 32px;
+}
+
+/* ==========================================================================
+   1. TRÊN PC: KHUNG 3D LUÔN LÀ HÌNH CHỮ NHẬT CỐ ĐỊNH, KHÔNG ĐỔI KÍCH THƯỚC
+   ========================================================================== */
+.solar-system-stage {
+    /* Giữ nguyên các thuộc tính width, height, border-radius, margin hiện tại của cậu */
+
+    /* Hoặc kích thước px cố định cậu đang để ban đầu */
+    max-width: 1000px;
+    height: 55vh !important;
+    position: relative;
+    margin: 0 auto;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+/* Đảm bảo canvas luôn khít với cái hộp chữ nhật này trên PC */
+.solar-system-stage canvas {
+    width: 100% !important;
+    height: 100% !important;
+    display: block !important;
+}
+
+.control-buttons-row {
+    display: flex !important;
+    flex-direction: row !important;
+    /* Xếp hàng ngang */
+
+    /* CHÌA KHÓA Ở ĐÂY: Đổi từ flex-start sang center để gom các nút vào giữa */
+    justify-content: center !important;
+
+    align-items: center !important;
+    gap: 12px;
+    /* Khoảng cách giữa các nút tròn */
+    width: 100%;
+
+}
+
+/* ==========================================================================
+   MẶC ĐỊNH TRÊN PC (HIỆN CHỮ - ẨN ICON)
+   ========================================================================== */
+
+/* Khung chứa các nút trên PC dạt hàng ngang rộng rãi */
+.control-buttons-row {
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: center !important;
+    align-items: center !important;
+    gap: 12px;
+    width: 100%;
+
+}
+
+/* Style nút dạng chữ nằm ngang trên PC */
+.control-buttons-row button {
+    width: auto !important;
+    /* Bỏ kích thước tròn cố định trên PC */
+    height: auto !important;
+    padding: 8px 16px !important;
+    border-radius: 20px !important;
+    /* Bo tròn kiểu viên thuốc dài */
+    font-size: 13px !important;
+    white-space: nowrap !important;
+}
+
+/* CHÌA KHÓA TRÊN PC: Giấu cái icon đi, chỉ hiện chữ */
+.control-buttons-row button .btn-icon {
+    display: none !important;
+}
+
+.control-buttons-row button .btn-text {
+    display: inline !important;
+}
+
+.control-buttons-row button .btn-text {
+    display: inline !important;
+    color: #ffffff !important;
+    /* Ép chữ bắt buộc phải màu trắng */
+}
+
+.speed-label-text {
+    color: #ffffff !important;
+}
+
+/* ==========================================================================
+   KHI SANG MOBILE (MAX-WIDTH: 768PX) -> BIẾN THÀNH ICON TRÒN
+   ========================================================================== */
+@media (max-width: 768px) {
+
+    /* Biến các nút thành hình tròn trịa trên mobile */
+    .control-buttons-row button {
+        width: 40px !important;
+        height: 40px !important;
+        padding: 0 !important;
+        border-radius: 50% !important;
+        /* Tròn xoe */
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }
+
+    /* CHÌA KHÓA TRÊN MOBILE: Giấu chữ đi, chỉ hiện icon */
+    .control-buttons-row button .btn-icon {
+        display: inline !important;
+        font-size: 16px !important;
+        color: #ffffff !important;
+    }
+
+    .control-buttons-row button .btn-text {
+        display: none !important;
+        color: #ffffff !important;
+    }
+    .speed-label-text {
+    color: #ffffff !important;
+}
+
 }

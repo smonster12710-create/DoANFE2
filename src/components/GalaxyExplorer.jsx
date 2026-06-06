@@ -53,7 +53,7 @@ export default function GalaxyExplorer() {
         const onFullscreenChange = () => {
             const isCurrentlyFull = document.fullscreenElement === stageRef.current;
             setIsFullscreen(isCurrentlyFull);
-            
+
             // Đợi 150ms để trình duyệt hoàn tất việc phóng to/thu nhỏ rồi ghim chặt camera lại
             setTimeout(() => {
                 if (selectedConstellation) {
@@ -61,7 +61,7 @@ export default function GalaxyExplorer() {
                 }
             }, 150);
         };
-        
+
         document.addEventListener("fullscreenchange", onFullscreenChange);
         return () => document.removeEventListener("fullscreenchange", onFullscreenChange);
     }, [selectedConstellation]); // Theo dõi selectedConstellation để cập nhật chính xác
@@ -108,7 +108,7 @@ export default function GalaxyExplorer() {
                         <Stars radius={300} depth={100} count={10000} factor={4} />
                         <StarField />
                         <ConstellationLines selectedId={selectedConstellation?.id} />
-             
+
                         <ConstellationLabels
                             onSelect={handleSelectConstellation}
                             selectedId={selectedConstellation?.id}
@@ -165,10 +165,23 @@ export default function GalaxyExplorer() {
                     )}
 
                     <div className="solar-system-controls">
-                        <button type="button" onClick={resetView}>Đặt lại góc nhìn</button>
-                        <button type="button" onClick={toggleFullscreen}>
-                            {isFullscreen ? "Thoát toàn màn hình" : "Toàn màn hình"}
-                        </button>
+                        {/* HÀNG 1: Gom các nút chức năng thành icon tròn/vuông gọn gàng */}
+                        <div className="control-buttons-row">
+
+                            <div className="control-buttons-row">
+                                <button type="button" onClick={resetView} title="Đặt lại góc nhìn">
+                                    <span className="btn-icon">↺</span>
+                                    <span className="btn-text">Đặt lại góc nhìn</span>
+                                </button>
+
+                                <button type="button" onClick={toggleFullscreen} title="Toàn màn hình">
+                                    <span className="btn-icon">{isFullscreen ? '⛶' : '🗖'}</span>
+                                    <span className="btn-text">{isFullscreen ? 'Thoát màn hình' : 'Toàn màn hình'}</span>
+                                </button>
+                            </div>
+                        </div>
+
+
                     </div>
                 </div>
 
