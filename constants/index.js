@@ -2,7 +2,7 @@ const navLinks = [
 	{ id: "constellations", title: "Các Vì Sao" },
 	{ id: "about", title: "Chuyện Xưa" },
 	{ id: "art", title: "Góc Viễn Vọng" },
-	{ id: "contact", title: "Nơi Hẹn" },
+	{ id: "contact", title: "Liên Lạc" },
 ];
 
 const constellationLists = [

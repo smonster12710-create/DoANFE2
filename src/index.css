@@ -67,11 +67,11 @@ body {
 
         img {
             @apply w-10 h-auto object-contain;
-            /* w-10 tương đương width: 40px, bạn có thể đổi thành w-12 (48px) hoặc w-16 (64px) tùy ý */
         }
 
         div {
-            @apply flex md:flex-row flex-col md:justify-between items-center gap-5 py-5 lg:px-0 px-5 container mx-auto;
+            /* Thay py-5 thành py-3 md:py-5 | Thay gap-5 thành gap-2 md:gap-5 */
+            @apply flex md:flex-row flex-col md:justify-between items-center gap-2 md:gap-5 py-3 md:py-5 lg:px-0 px-5 container mx-auto;
         }
 
         p {
@@ -83,7 +83,8 @@ body {
         }
 
         ul {
-            @apply flex-center lg:gap-12 gap-7;
+            /* Thay gap-7 thành gap-3 để các chữ menu khít lại gần nhau hơn trên mobile */
+            @apply flex-center lg:gap-12 gap-3;
         }
     }
 
@@ -99,17 +100,37 @@ body {
         }
 
         .left-planet {
-            @apply absolute left-0 md:top-20 xl:top-36 2xl:top-52 md:bottom-auto -bottom-20;
-            @apply w-1/3 md:w-[35vw] max-w-xl z-[-1];
+            @apply absolute md:top-20 xl:top-36 2xl:top-52 md:bottom-auto -bottom-20;
+            @apply w-1/3 md:w-[35vw] max-w-xl;
             @apply object-cover object-left;
-            @apply -translate-x-1/2;
+
+            /* Chuyển style từ React sang CSS */
+            position: absolute;
+            z-index: 50;
+            cursor: grab;
+            user-select: none;
+            pointer-events: auto;
+            padding: 60px;
+            margin: -60px;
+            box-sizing: content-box;
+            left: -17.5vw;
         }
 
         .right-planet {
-            @apply absolute -right-0 md:top-28 xl:top-40 top-1/3;
-            @apply w-1/3 md:w-[30vw] max-w-xl z-[-1];
+            @apply absolute md:top-28 xl:top-40 top-1/3;
+            @apply w-1/3 md:w-[30vw] max-w-xl;
             @apply object-cover object-right;
-            @apply translate-x-1/2;
+
+            /* Chuyển style từ React sang CSS */
+            position: absolute;
+            z-index: 50;
+            cursor: grab;
+            user-select: none;
+            pointer-events: auto;
+            padding: 60px;
+            margin: -60px;
+            box-sizing: content-box;
+            right: -15vw;
         }
 
         .body {
@@ -141,6 +162,16 @@ body {
         }
     }
 
+    @media (max-width: 767px) {
+        #hero .left-planet {
+            left: -16%;
+        }
+
+        #hero .right-planet {
+            right: -16%;
+        }
+    }
+
     video {
         @apply w-full md:h-[80%] h-1/2 absolute bottom-0 left-0 md:object-contain object-bottom object-cover;
     }
@@ -149,19 +180,40 @@ body {
         @apply relative min-h-dvh w-full overflow-hidden;
 
         #c-left-leaf {
-            @apply absolute left-0 top-1/4 z-0;
+            @apply absolute left-0 top-1/4;
             @apply w-1/3 md:w-[20vw] max-w-xs object-contain;
             @apply -translate-x-12;
+
+            /* Thêm !important ở đây */
+            z-index: 10 !important;
+
+            cursor: grab;
+            user-select: none;
+            pointer-events: auto;
+            padding: 40px;
+            margin: -40px;
+            box-sizing: content-box;
         }
 
         #c-right-leaf {
-            @apply absolute -right-20 md:bottom-0 md:top-auto -top-20 md:w-fit w-1/3;
+            @apply absolute -right-20 md:bottom-0 md:top-auto -top-20;
             @apply w-1/3 md:w-[20vw] max-w-xs object-contain;
             @apply -translate-x-12;
+
+            /* Thêm !important ở đây */
+            z-index: 10 !important;
+
+            cursor: grab;
+            user-select: none;
+            pointer-events: auto;
+            padding: 40px;
+            margin: -40px;
+            box-sizing: content-box;
         }
 
         .list {
-            @apply container mx-auto relative z-10 flex md:flex-row flex-col justify-between items-start gap-20 pt-40 2xl:px-0 px-5;
+            /* Đảm bảo z-index của danh sách thấp hơn hoặc bằng 10 để nhường chỗ cho thiên thạch click */
+            @apply container mx-auto relative z-20 flex md:flex-row flex-col justify-between items-start gap-20 pt-40 2xl:px-0 px-5;
 
             .popular {
                 @apply space-y-8 w-full md:w-fit;
@@ -254,35 +306,63 @@ body {
     }
 
     #art {
-        @apply flex-center flex-col min-h-dvh p-5 mt-20 relative radial-gradient;
+        @apply flex items-center justify-start flex-col min-h-dvh p-4 md:p-5 pt-24 md:pt-20 relative radial-gradient overflow-x-hidden;
 
         h2 {
-            /* Bỏ -translate-x-15 để chữ không bị lệch trái, bỏ text-nowrap để linh hoạt hơn */
-            @apply relative md:text-[15vw] text-7xl leading-none font-modern-negra text-center text-[#505050] mb-8 select-none tracking-tight;
+            @apply relative text-4xl md:text-[15vw] leading-none font-modern-negra text-center text-[#505050] mb-6 md:mb-8 select-none tracking-tight w-full z-10;
         }
 
         .content {
-            @apply flex md:flex-row flex-col justify-between md:mb-16 md:mt-0 mt-40 gap-10;
+            /* Mobile: xếp dọc, sát nhau (justify-start) | PC: xếp ngang, đẩy ra 2 bên rìa (md:justify-between) */
+            @apply flex flex-col md:flex-row items-center justify-start md:justify-between w-full max-w-6xl md:my-16 gap-6 md:gap-0 relative z-10;
+
+            ul {
+                @apply w-full md:w-[40%] space-y-4 px-4 md:px-0;
+
+                li {
+                    @apply flex items-center justify-start gap-3;
+
+                    img {
+                        @apply w-5 h-5 object-contain flex-shrink-0;
+                    }
+
+                    p {
+                        @apply text-white text-base md:text-lg;
+                    }
+                }
+            }
+
+            /* Thêm căn lề phải cho cụm text bên phải trên PC để giao diện cân đối hơn */
+            .right-list {
+                @apply md:pl-20;
+            }
+
+            .left-list {
+                @apply md:pr-20;
+            }
         }
 
         .star-img {
-            @apply md:w-[60vw] w-full h-[50vh] md:h-[70vh] rounded-4xl overflow-hidden absolute top-0 md:top-1/2 md:-translate-y-1/2 left-1/2 -translate-x-1/2;
+            /* Mobile: Co gọn nằm giữa cụm 1 và cụm 2 | PC: Neo chính giữa layout bằng absolute không sợ đè chữ */
+            @apply relative md:absolute w-44 h-44 md:w-[35vw] md:h-[55vh] rounded-4xl overflow-hidden my-2 md:my-0 md:top-1/2 md:-translate-y-1/2 md:left-1/2 md:-translate-x-1/2 z-0;
         }
 
         .masked-container {
+            @apply w-full max-w-4xl text-center mt-10 md:mt-32 px-4 z-10;
+
             h2 {
-                @apply text-4xl md:text-5xl font-modern-negra text-center mb-10 text-white mt-32;
+                @apply text-3xl md:text-5xl font-modern-negra text-center mb-6 md:mb-10 text-white;
             }
 
-            div {
-                @apply opacity-0 md:px-0 px-5 space-y-5 absolute md:bottom-5 bottom-52 left-1/2 -translate-x-1/2;
+            #masked-content {
+                @apply space-y-4 md:space-y-5 transition-opacity duration-500 w-full;
 
                 h3 {
-                    @apply md:text-5xl text-2xl text-center font-serif md:w-full w-80 text-white;
+                    @apply text-xl md:text-5xl text-center font-serif text-white mx-auto max-w-md md:max-w-none;
                 }
 
                 p {
-                    @apply text-lg text-center;
+                    @apply text-sm md:text-lg text-center text-gray-300 max-w-xl mx-auto;
                 }
             }
         }
@@ -365,29 +445,62 @@ body {
     }
 
     #contact {
-        @apply relative md:mt-20 mt-0 px-4 text-center w-full overflow-hidden radial-gradient;
+        /* Thêm pt-24 trên mobile để đẩy toàn bộ nội dung xuống dưới, không bị navbar đè lên chữ "Thông Tin" */
+        @apply relative md:mt-20 mt-0 pt-24 md:pt-0 px-4 text-center w-full overflow-hidden radial-gradient;
 
-        #f-left-leaf {
-            @apply absolute top-60 left-5 pointer-events-none w-1/3 max-w-[280px] lg:max-w-[320px];
+        #f-left-leaf,
+        #f-right-leaf {
+            z-index: 10 !important;
+            pointer-events: auto !important;
+            cursor: grab;
+            user-select: none;
+            padding: 40px;
+            margin: -40px;
+            box-sizing: content-box;
         }
 
+        /* Hành tinh đỏ nhỏ bên dưới */
+        #f-left-leaf {
+            /* Mobile: Cho nó thành relative hoặc điều chỉnh lại vị trí để không đè chữ, thu nhỏ kích thước (w-32) */
+            @apply absolute bottom-36 left-4 w-32 md:w-1/3 max-w-[280px] lg:max-w-[320px] md:top-60 md:bottom-auto;
+        }
+
+        /* CHỐT HẠ HÀNH TINH TRÁI ĐẤT LỚN: Bỏ hidden đi */
         #f-right-leaf {
-            @apply absolute top-1/2 -translate-y-1/2 right-[-10%] pointer-events-none hidden lg:block w-[50vw] max-w-[650px];
+            /* Mobile: block (để hiển thị) | Tự động căn giữa màn hình hoặc đẩy lên trên đầu làm background mờ xịn sò */
+            @apply absolute top-10 right-[-20%] md:right-[-10%] block w-[60vw] md:w-[50vw] max-w-[650px] md:top-1/2 md:-translate-y-1/2 opacity-30 md:opacity-100;
+            /* Hạ opacity xuống 30 trên mobile để làm nền phía sau chữ, vừa đẹp vừa không bị rối mắt */
         }
 
         .content {
-            @apply container mx-auto lg:py-14 2xl:py-32 py-16 flex flex-col justify-between gap-10 min-h-dvh;
+            /* Đổi min-h-dvh thành h-auto trên mobile để nội dung co giãn tự nhiên, không bị khoảng trống quá dài */
+            @apply container mx-auto relative z-20 lg:py-14 2xl:py-32 py-8 flex flex-col justify-between gap-6 md:gap-10 h-auto md:min-h-dvh;
+
+            pointer-events: none;
+
+            h2,
+            div {
+                pointer-events: auto;
+            }
 
             h2 {
-                @apply lg:text-6xl 2xl:text-8xl text-5xl font-modern-negra md:translate-y-0 translate-y-5;
+                /* Tăng nhẹ margin-bottom cho chữ Thông Tin tách biệt */
+                @apply lg:text-6xl 2xl:text-8xl text-5xl font-modern-negra mb-4 md:mb-0;
             }
 
             h3 {
-                @apply uppercase xl:text-base 2xl:text-lg text-base mb-2;
+                @apply uppercase xl:text-base 2xl:text-lg text-base mb-1 md:mb-2;
             }
 
             p {
-                @apply lg:text-2xl 2xl:text-3xl text-sm;
+                @apply lg:text-2xl 2xl:text-3xl text-sm text-gray-200;
+            }
+
+            /* Cụm div chứa text thông tin */
+            .space-y-6,
+            .space-y-8 {
+                @apply relative z-30;
+                /* Đảm bảo text luôn nổi lên trên block hành tinh nền */
             }
         }
 
@@ -935,7 +1048,6 @@ body {
         position: relative;
     }
 
-    /* Giấu cái chữ "Chòm sao ID" đi cho đỡ rác màn hình mobile */
     .planet-detail-info>span {
         display: none !important;
     }
@@ -1598,7 +1710,7 @@ body {
    ========================================================================== */
 @media (max-width: 768px) {
 
-    /* Biến các nút thành hình tròn trịa trên mobile */
+
     .control-buttons-row button {
         width: 40px !important;
         height: 40px !important;
@@ -1610,7 +1722,7 @@ body {
         justify-content: center !important;
     }
 
-    /* CHÌA KHÓA TRÊN MOBILE: Giấu chữ đi, chỉ hiện icon */
+
     .control-buttons-row button .btn-icon {
         display: inline !important;
         font-size: 16px !important;
