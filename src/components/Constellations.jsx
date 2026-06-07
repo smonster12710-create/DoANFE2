@@ -6,7 +6,7 @@ const Constellations = () => {
    useGSAP(() => {
       const parallaxTimeline = gsap.timeline({
          scrollTrigger: {
-            trigger: '#cocktails',
+            trigger: '#constellations',
             start: 'top 30%',
             end: 'bottom 80%',
             scrub: true,
@@ -23,7 +23,7 @@ const Constellations = () => {
    })
 
    return (
-      <section id="cocktails" className="noisy">
+      <section id="constellations" className="noisy">
          <img src="/images/star.png" alt="l-leaf" id="c-left-leaf" />
          <img src="/images/star.png" alt="r-leaf" id="c-right-leaf" />
 
@@ -31,8 +31,8 @@ const Constellations = () => {
             <div className="popular">
                {/* 1. Đưa tiêu đề và chữ Visibility vào một khối flex/grid để ép chúng sang 2 đầu */}
                <div className="flex justify-between items-end border-b border-white/10 pb-2 mb-4">
-                  <h2>Prominent Constellations</h2>
-                  <span className="text-sm opacity-60 font-medium uppercase tracking-wider">Visibility</span>
+                  <h2>Tinh Tú Kiệt Tác</h2>
+                  <span className="text-sm opacity-60 font-medium uppercase tracking-wider">Tầm nhìn</span>
                </div>
 
                <ul>
@@ -51,8 +51,8 @@ const Constellations = () => {
             <div className="loved">
                {/* 2. Làm tương tự cho khối bên cạnh */}
                <div className="flex justify-between items-end border-b border-white/10 pb-2 mb-4">
-                  <h2>Deep Sky Nebulae</h2>
-                  <span className="text-sm opacity-60 font-medium uppercase tracking-wider">Visibility</span>
+                  <h2>Tinh Vân Sâu Thẳm</h2>
+                  <span className="text-sm opacity-60 font-medium uppercase tracking-wider">Bối Cảnh</span>
                </div>
 
                <ul>

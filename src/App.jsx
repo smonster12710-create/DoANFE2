@@ -24,8 +24,6 @@ const App = () => {
 			<SolarSystem />
 
 			<GalaxyExplorer />
-
-			<Menu />
 			<Contact />
 		</main>
 	)

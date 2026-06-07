@@ -28,7 +28,7 @@ const Art = () => {
 	return (
 		<div id="art">
 			<div className="container mx-auto h-full pt-20">
-				<h2 className="will-fade">Stellar Sight</h2>
+				<h2 className="will-fade">Góc Viễn Vọng</h2>
 
 				<div className="content">
 					<ul className="space-y-4 will-fade">
@@ -40,10 +40,10 @@ const Art = () => {
 						))}
 					</ul>
 
-					<div className="cocktail-img">
+					<div className="star-img">
 						<img
 							src="/images/Catching the star of hope.png"
-							alt="cocktail"
+							alt="star"
 							className="abs-center masked-img size-full object-contain"
 						/>
 					</div>
@@ -59,10 +59,10 @@ const Art = () => {
 				</div>
 
 				<div className="masked-container">
-					<h2 className="will-fade">A Universe of Wonder</h2>
+					<h2 className="will-fade">Vũ Trụ Của Những Kỳ Quan</h2>
 					<div id="masked-content">
-						<h3>Written in the Stars, Painted with Passion</h3>
-						<p>This isn’t just the night sky. It’s a breathtaking cosmic moment captured just for you.</p>
+						<h3>Viết Giữa Ngàn Sao, Vẽ Bằng Nhiệt Huyết</h3>
+						<p>Đây không chỉ là màn đêm tăm tối. Đây là khoảnh khắc vũ trụ tuyệt mỹ, được lưu giữ trọn vẹn dành riêng cho bạn.</p>
 					</div>
 				</div>
 			</div>

@@ -1,61 +1,61 @@
 const navLinks = [
-	{ id: "cocktails", title: "Constellations" },
-	{ id: "about", title: "The Lore" },
-	{ id: "art", title: "Stellar Sight" },
-	{ id: "contact", title: "Basecamp" },
+	{ id: "constellations", title: "Các Vì Sao" },
+	{ id: "about", title: "Chuyện Xưa" },
+	{ id: "art", title: "Góc Viễn Vọng" },
+	{ id: "contact", title: "Nơi Hẹn" },
 ];
 
 const constellationLists = [
 	{
-		name: "The Starry Plow",
-		country: "Folklore",
-		detail: "Harvest Sign",
-		visibility: "Easy",
+		name: "Cày Tinh Tú",
+		country: "Dân Gian",
+		detail: "Báo Hiệu Mùa Vụ",
+		visibility: "Dễ Dàng",
 	},
 	{
-		name: "Ursa Major",
-		country: "Ancient",
-		detail: "The Great Bear",
-		visibility: "Easy",
+		name: "Chòm Đại Hùng",
+		country: "Cổ Đại",
+		detail: "Gấu Lớn",
+		visibility: "Dễ Dàng",
 	},
 	{
-		name: "Orion",
-		country: "Mythology",
-		detail: "The Hunter",
-		visibility: "Clear",
+		name: "Chòm Thợ Săn",
+		country: "Thần Thoại",
+		detail: "Thợ Săn",
+		visibility: "Rõ Ràng",
 	},
 	{
-		name: "The Pleiades",
-		country: "Folklore",
-		detail: "Seven Sisters",
-		visibility: "Medium",
+		name: "Sao Tua Rua",
+		country: "Dân Gian",
+		detail: "Thất Nữ",
+		visibility: "Trung Bình",
 	},
 ];
 
 const nebulaLists = [
 	{
-		name: "Andromeda Galaxy",
-		country: "Deep Sky",
-		detail: "Our nearest spiral neighbor",
-		visibility: "Dark Sky",
+		name: "Thiên Hà Tiên Nữ",
+		country: "Vũ Trụ Sâu",
+		detail: "Dải xoắn ốc gần ta nhất",
+		visibility: "Đêm Thẳm",
 	},
 	{
-		name: "Orion Nebula",
-		country: "Stellar",
-		detail: "A cosmic nursery of stars",
-		visibility: "Telescope",
+		name: "Tinh Vân Orion",
+		country: "Tinh Tú",
+		detail: "Nôi sinh trưởng của các vì sao",
+		visibility: "Ống Kính",
 	},
 	{
-		name: "The Milky Way",
-		country: "Galaxy",
-		detail: "Our home celestial river",
-		visibility: "Dark Sky",
+		name: "Dải Ngân Hà",
+		country: "Thiên Hà",
+		detail: "Dòng sông ánh sáng của chúng ta",
+		visibility: "Ngoại Ô",
 	},
 	{
-		name: "Aurora Borealis",
-		country: "Atmosphere",
-		detail: "The dancing northern lights",
-		visibility: "Seasonal",
+		name: "Cực Quang Phương Bắc",
+		country: "Khí Quyển",
+		detail: "Vũ điệu ánh sáng đêm đêm",
+		visibility: "Vùng Cực",
 	},
 ];
 
@@ -75,17 +75,17 @@ const profileLists = [
 ];
 
 const featureLists = [
-	"Zero light pollution zones",
-	"Crystal clear night skies",
-	"High-end optical telescopes",
-	"Expertly guided cosmic tours",
+	"Vùng trời không ô nhiễm",
+	"Màn đêm trong vắt",
+	"Kính quang học cao cấp",
+	"Hành trình cùng chuyên gia",
 ];
 
 const goodLists = [
-	"Open-air wooden terraces",
-	"Deep mountain silence",
-	"Ancient star-mapping methods",
-	"Seasonal celestial events",
+	"Hiên gỗ lộ thiên",
+	"Núi thẳm lặng tờ",
+	"Thuật họa bản đồ sao",
+	"Kỳ quan theo mùa",
 ];
 
 const storeInfo = {
@@ -98,10 +98,10 @@ const storeInfo = {
 };
 
 const openingHours = [
-	{ day: "Mon–Thu", time: "6:00pm – 12am" },
-	{ day: "Fri", time: "6:00pm – 2am" },
-	{ day: "Sat", time: "5:00pm – 2am" },
-	{ day: "Sun", time: "5:00pm – 1am" },
+	{ day: "Thứ 2 – Thứ 5", time: "18:00 – 00:00" },
+	{ day: "Thứ 6", time: "18:00 – 02:00" },
+	{ day: "Thứ 7", time: "17:00 – 02:00" },
+	{ day: "Chủ Nhật", time: "17:00 – 01:00" },
 ];
 
 const socials = [
@@ -122,7 +122,7 @@ const socials = [
 	},
 ];
 
-const allCocktails = [
+const allGalaxy = [
 	{
 		id: 1,
 		name: "The Cosmic Horizon",
@@ -167,5 +167,5 @@ export {
 	openingHours,
 	storeInfo,
 	socials,
-	allCocktails,
+	allGalaxy,
 };

@@ -126,7 +126,7 @@ body {
                     @apply 2xl:text-start text-center;
                 }
 
-                .view-cocktails {
+                .view-star {
                     @apply space-y-5 text-lg lg:max-w-2xs md:max-w-xs w-full;
 
                     p {
@@ -145,7 +145,7 @@ body {
         @apply w-full md:h-[80%] h-1/2 absolute bottom-0 left-0 md:object-contain object-bottom object-cover;
     }
 
-    #cocktails {
+    #constellations {
         @apply relative min-h-dvh w-full overflow-hidden;
 
         #c-left-leaf {
@@ -257,14 +257,15 @@ body {
         @apply flex-center flex-col min-h-dvh p-5 mt-20 relative radial-gradient;
 
         h2 {
-            @apply relative md:text-[20vw] text-8xl text-nowrap leading-none font-modern-negra text-center text-[#505050] mb-8 -translate-x-15;
+            /* Bỏ -translate-x-15 để chữ không bị lệch trái, bỏ text-nowrap để linh hoạt hơn */
+            @apply relative md:text-[15vw] text-7xl leading-none font-modern-negra text-center text-[#505050] mb-8 select-none tracking-tight;
         }
 
         .content {
             @apply flex md:flex-row flex-col justify-between md:mb-16 md:mt-0 mt-40 gap-10;
         }
 
-        .cocktail-img {
+        .star-img {
             @apply md:w-[60vw] w-full h-[50vh] md:h-[70vh] rounded-4xl overflow-hidden absolute top-0 md:top-1/2 md:-translate-y-1/2 left-1/2 -translate-x-1/2;
         }
 
@@ -1620,8 +1621,9 @@ body {
         display: none !important;
         color: #ffffff !important;
     }
+
     .speed-label-text {
-    color: #ffffff !important;
-}
+        color: #ffffff !important;
+    }
 
 }
