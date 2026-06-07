@@ -1,12 +1,15 @@
 import { openingHours, socials } from '../../constants/index.js'
 import { useGSAP } from '@gsap/react'
-import { SplitText } from 'gsap/all';
+import { SplitText, Draggable } from 'gsap/all'; // Đăng ký thêm Draggable
 import gsap from 'gsap';
+
+gsap.registerPlugin(Draggable);
 
 const Contact = () => {
 	useGSAP(() => {
 		const titleSplit = SplitText.create('#contact h2', { type: 'words' });
 
+		// --- HIỆU ỨNG TẠO ANIME XUẤT HIỆN BAN ĐẦU ---
 		const timeline = gsap.timeline({
 			scrollTrigger: {
 				trigger: '#contact',
@@ -22,24 +25,87 @@ const Contact = () => {
 			.from('#contact h3, #contact p', {
 				opacity: 0, yPercent: 100, stagger: 0.02
 			})
-			.to('#f-right-leaf', {
-				y: '-50', duration: 1, ease: 'power1.inOut'
-			}).to('#f-left-leaf', {
-				y: '-50', duration: 1, ease: 'power1.inOut'
-			}, '<')
+			// Thay đổi một chút từ .to thành .from để không xung đột tọa độ neo với Draggable
+			.from('#f-right-leaf, #f-left-leaf', {
+				y: 50, opacity: 0, duration: 1, ease: 'power1.inOut', stagger: 0.1
+			})
+
+		// --- HIỆU ỨNG TỰ ĐỘNG BAY LƠ LỬNG (FLOATING) ---
+		const startFloating = (selector) => {
+			const isLeft = selector === "#f-left-leaf";
+			return gsap.to(selector, {
+				y: isLeft ? "+=15" : "-=20",
+				rotation: isLeft ? -4 : 3,
+				duration: isLeft ? 3.5 : 3,
+				ease: "sine.inOut",
+				yoyo: true,
+				repeat: -1,
+			});
+		};
+
+		let floatLeft = startFloating("#f-left-leaf");
+		let floatRight = startFloating("#f-right-leaf");
+
+		// --- HIỆU ỨNG KÉO THẢ (DRAGGABLE) ---
+		const setupDraggable = (selector, getFloatTween, setFloatTween) => {
+			Draggable.create(selector, {
+				type: "x,y",
+				edgeResistance: 0.65,
+				cursor: "grab",
+				activeCursor: "grabbing",
+				zIndexBoost: false, // Ngăn chặn GSAP tự nhảy z-index lên trước chữ khi kéo
+
+				onDragStart: function () {
+					getFloatTween().pause();
+					gsap.killTweensOf(this.target);
+				},
+				onRelease: function () {
+					const vx = this.pointerX - this.startX;
+					const vy = this.pointerY - this.startY;
+
+					const driftX = Math.max(-60, Math.min(60, vx * 0.15));
+					const driftY = Math.max(-60, Math.min(60, vy * 0.15));
+
+					const releaseTl = gsap.timeline({
+						onComplete: () => {
+							setFloatTween(startFloating(selector));
+						}
+					});
+
+					releaseTl
+						.to(this.target, {
+							x: `+=${driftX}`,
+							y: `+=${driftY}`,
+							duration: 0.5,
+							ease: "power2.out"
+						})
+						.to({}, { duration: 0.3 })
+						.to(this.target, {
+							x: 0,
+							y: 0,
+							duration: 1.2,
+							ease: "power3.inOut"
+						});
+				}
+			});
+		};
+
+		setupDraggable("#f-left-leaf", () => floatLeft, (tween) => { floatLeft = tween; });
+		setupDraggable("#f-right-leaf", () => floatRight, (tween) => { floatRight = tween; });
 	})
 
 	return (
 		<footer id="contact">
-			<img src="/images/last.png" alt="leaf-right" id="f-right-leaf" />
-			<img src="/images/last2.png" alt="leaf-left" id="f-left-leaf" />
+			{/* Đổi thuộc tính draggable và bổ sung cấu trúc chuẩn */}
+			<img src="/images/last.png" alt="leaf-right" id="f-right-leaf" draggable="false" />
+			<img src="/images/last2.png" alt="leaf-left" id="f-left-leaf" draggable="false" />
 
 			<div className="content">
-				<h2>Nơi Hẹn Ước</h2>
+				<h2>Thông Tin</h2>
 
 				<div>
 					<h3>Ghé Thăm Sảnh Chiêm Tinh</h3>
-					<p>456, Raq Blvd. #404, Los Angeles, CA 90210</p>
+					<p>Hàm Thuận Nam, Bình Thuận</p>
 				</div>
 
 				<div>
@@ -69,7 +135,7 @@ const Contact = () => {
 								rel="noopener noreferrer"
 								aria-label={social.name}
 							>
-								<img src={social.icon} />
+								<img src={social.icon} alt={social.name} />
 							</a>
 						))}
 					</div>

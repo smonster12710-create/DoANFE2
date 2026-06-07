@@ -13,25 +13,25 @@ const Art = () => {
 			scrollTrigger: {
 				trigger: '#art',
 				start,
-				end: 'bottom center',
+				end: isMobile ? 'bottom 80%' : 'bottom center',
 				scrub: 1.5,
-				pin: true
+				pin: !isMobile // Chỉ pin trên PC, Mobile tắt pin
 			}
 		})
 
 		maskTimeline
-			.to('.will-fade', { opacity: 0, stagger: 0.2, ease: 'power1.inOut', })
-			.to('.masked-img', { scale: 1.3, maskPosition: 'center', maskSize: '400%', duration: 1, ease: 'power1.inOut ' })
+			.to('.will-fade', { opacity: 0, stagger: 0.2, ease: 'power1.inOut' })
+			.to('.masked-img', { scale: 1.3, maskPosition: 'center', maskSize: '400%', duration: 1, ease: 'power1.inOut' })
 			.to('#masked-content', { opacity: 1, duration: 1, ease: 'power1.inOut' })
-	})
+	}, { dependencies: [isMobile], revertOnUpdate: true })
 
 	return (
 		<div id="art">
-			<div className="container mx-auto h-full pt-20">
+			<div className="container mx-auto h-full pt-20 relative">
 				<h2 className="will-fade">Góc Viễn Vọng</h2>
 
 				<div className="content">
-					<ul className="space-y-4 will-fade">
+					<ul className="space-y-4 will-fade left-list">
 						{goodLists.map((feature, index) => (
 							<li key={index} className="flex items-center gap-2">
 								<img src="/images/check.png" alt="check" />
@@ -40,6 +40,7 @@ const Art = () => {
 						))}
 					</ul>
 
+					{/* Đặt star-img nằm ngoài hoặc trong luồng flex nhưng áp absolute chuẩn trên PC */}
 					<div className="star-img">
 						<img
 							src="/images/Catching the star of hope.png"
@@ -48,7 +49,7 @@ const Art = () => {
 						/>
 					</div>
 
-					<ul className="space-y-4 will-fade">
+					<ul className="space-y-4 will-fade right-list">
 						{featureLists.map((feature, index) => (
 							<li key={index} className="flex items-center justify-start gap-2">
 								<img src="/images/check.png" alt="check" />
@@ -69,4 +70,4 @@ const Art = () => {
 		</div>
 	)
 }
-export default Art
+export default Art;
