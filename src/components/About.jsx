@@ -29,24 +29,24 @@ const About = () => {
 			<div className="mb-16 md:px-0 px-5">
 				<div className="content">
 					<div className="md:col-span-8">
-						<p className="badge">The Lore</p>
+						<p className="badge">Chuyện Xưa</p>
 						<h2>
-							Echoes of the ancient sky <span className="text-white">-</span>
-							written in the stars
+							Lời vang vọng của bầu trời thuở ấy <span className="text-white">-</span>
+							Đã khắc ghi sâu vào mỗi nhòm sao
 						</h2>
 					</div>
 
 					<div className="sub-content">
 						<p>
-							Long before our time, every constellation was a living myth whispered across generations. We bring those forgotten celestial chronicles back to life, turning the night sky into an immersive tapestry of timeless legends.
+							Xưa kia đất trời chưa tỏ, vì sao sáng chói cả trời đêm. Nay ta đánh thức màn đêm, dệt lại sử thi bị bỏ ngỏ.
 						</p>
 
 						<div>
 							<p className="md:text-3xl text-xl font-bold">
-								<span>1000+</span> Years
+								<span>"Hướng về phía ánh sáng, nơi những vì sao vĩnh hằng."</span>
 							</p>
 							<p className="text-sm text-white-100">
-								Of cosmic myths and ancient stardust
+								— Albert Einstein
 							</p>
 						</div>
 					</div>

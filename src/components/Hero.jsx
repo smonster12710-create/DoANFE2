@@ -73,7 +73,7 @@ const Hero = () => {
 	return (
 		<>
 			<section id="hero" className="noisy">
-				<h1 className="title">Stella Lounge</h1>
+				<h1 className="title">Sảnh Tinh Vân</h1>
 
 				<img
 					src="/images/hero-left-planet.png"
@@ -89,16 +89,15 @@ const Hero = () => {
 				<div className="body">
 					<div className="content">
 						<div className="space-y-5 hidden md:block">
-							<p>Silent. Deep. Eternal.</p>
-							<p className="subtitle">Chasing Stars <br /> In The Dark</p>
+							<p>Lặng im. Sâu thẳm. Vĩnh hằng.</p>
+							<p className="subtitle">Đi tìm tinh tú <br /> giữa đêm sâu</p>
 						</div>
 
-						<div className="view-cocktails">
+						<div className="view-star">
 							<p className="subtitle">
-								Every constellation in our sky carries an ancient story of folklore,
-								passed down through generations — waiting to be discovered by your own eyes.
+								Mỗi chòm sao trên bầu trời đều mang trong mình một câu chuyện dân gian cổ xưa, được lưu truyền qua bao thế hệ — đang chờ chính đôi mắt bạn đến khám phá.
 							</p>
-							<a href="#cocktails">Explore constellations</a>
+							<a href="#constellations">Khám phá các vì sao</a>
 						</div>
 					</div>
 				</div>
