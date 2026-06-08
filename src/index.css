@@ -306,65 +306,87 @@ body {
     }
 
     #art {
-        @apply flex items-center justify-start flex-col min-h-dvh p-4 md:p-5 pt-24 md:pt-20 relative radial-gradient overflow-x-hidden;
+        /* Đóng khung chuẩn h-dvh để phục vụ tính năng Pin của GSAP không bị giật lag */
+        @apply relative w-full h-dvh min-h-dvh overflow-hidden flex flex-col items-center justify-between p-4 md:p-12;
 
-        h2 {
-            @apply relative text-4xl md:text-[15vw] leading-none font-modern-negra text-center text-[#505050] mb-6 md:mb-8 select-none tracking-tight w-full z-10;
+        .container {
+            @apply relative w-full h-full flex flex-col justify-between items-center max-w-7xl mx-auto;
+        }
+
+        /* Tiêu đề chính "Góc Viễn Vọng" */
+        >.container>h2 {
+            @apply text-4xl sm:text-5xl md:text-[12vw] leading-none font-modern-negra text-center text-[#505050] select-none tracking-tight mt-4 md:mt-0 z-10;
         }
 
         .content {
-            /* Mobile: xếp dọc, sát nhau (justify-start) | PC: xếp ngang, đẩy ra 2 bên rìa (md:justify-between) */
-            @apply flex flex-col md:flex-row items-center justify-start md:justify-between w-full max-w-6xl md:my-16 gap-6 md:gap-0 relative z-10;
+            @apply w-full flex flex-col md:flex-row items-center justify-center gap-12 md:gap-[42vw] my-auto relative h-auto z-10;
 
-            ul {
-                @apply w-full md:w-[40%] space-y-4 px-4 md:px-0;
+            ul:first-of-type {
+                @apply flex flex-col gap-2 text-white w-full max-w-xs md:max-w-[260px] text-left md:text-right;
 
                 li {
-                    @apply flex items-center justify-start gap-3;
+                    @apply flex items-center justify-center md:flex-row-reverse md:justify-start gap-2 text-sm md:text-base;
 
                     img {
-                        @apply w-5 h-5 object-contain flex-shrink-0;
+                        @apply w-4 h-4 object-contain;
                     }
 
                     p {
-                        @apply text-white text-base md:text-lg;
+                        @apply m-0;
                     }
                 }
             }
 
-            /* Thêm căn lề phải cho cụm text bên phải trên PC để giao diện cân đối hơn */
-            .right-list {
-                @apply md:pl-20;
+            ul:last-of-type {
+                @apply flex flex-col gap-2 text-white w-full max-w-xs md:max-w-[260px] text-left;
+
+                li {
+                    @apply flex items-center justify-center md:justify-start gap-2 text-sm md:text-base;
+
+                    img {
+                        @apply w-4 h-4 object-contain;
+                    }
+
+                    p {
+                        @apply m-0;
+                    }
+                }
             }
 
-            .left-list {
-                @apply md:pr-20;
+            /* Viết gọn lại phần Mobile trước */
+            .star-img {
+                /* SỬA: Thêm z-30 để đảm bảo trên Mobile ảnh cũng nằm trên cùng */
+                @apply w-[55vw] aspect-square rounded-2xl overflow-hidden relative mt-4 mb-4 z-30;
             }
         }
 
-        .star-img {
-            /* Mobile: Co gọn nằm giữa cụm 1 và cụm 2 | PC: Neo chính giữa layout bằng absolute không sợ đè chữ */
-            @apply relative md:absolute w-44 h-44 md:w-[35vw] md:h-[55vh] rounded-4xl overflow-hidden my-2 md:my-0 md:top-1/2 md:-translate-y-1/2 md:left-1/2 md:-translate-x-1/2 z-0;
-        }
-
+        /* PHASE 2: Khối chữ xuất hiện khi scroll */
         .masked-container {
-            @apply w-full max-w-4xl text-center mt-10 md:mt-32 px-4 z-10;
-
-            h2 {
-                @apply text-3xl md:text-5xl font-modern-negra text-center mb-6 md:mb-10 text-white;
-            }
+            @apply absolute inset-0 flex flex-col items-center justify-end pointer-events-none w-full h-full z-20 px-4 pb-8 md:pb-16;
 
             #masked-content {
-                @apply space-y-4 md:space-y-5 transition-opacity duration-500 w-full;
+                @apply opacity-0 flex flex-col items-center justify-center text-center space-y-4 max-w-3xl;
+
+                h2 {
+                    @apply text-2xl sm:text-3xl md:text-5xl font-modern-negra text-white select-none tracking-wide mb-2;
+                }
 
                 h3 {
-                    @apply text-xl md:text-5xl text-center font-serif text-white mx-auto max-w-md md:max-w-none;
+                    @apply text-base sm:text-xl md:text-2xl font-serif text-white leading-snug;
                 }
 
                 p {
-                    @apply text-sm md:text-lg text-center text-gray-300 max-w-xl mx-auto;
+                    @apply text-xs sm:text-sm md:text-base text-white/80 max-w-xl leading-relaxed;
                 }
             }
+        }
+    }
+
+    /* TÁCH RIÊNG ĐOẠN NÀY RA NGOÀI ĐỂ KHÔNG BỊ LỖI PHÂN TÍCH CÚ PHÁP (PARSING) */
+    @media (min-width: 768px) {
+        #art .content .star-img {
+            /* SỬA: Đổi md:z-0 thành md:z-30 để ảnh nhảy lên đè lên lớp chữ z-20 */
+            @apply w-[35vw] h-[45vh] aspect-auto absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-30;
         }
     }
 
