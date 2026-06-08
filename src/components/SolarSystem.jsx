@@ -264,44 +264,8 @@ const SolarSystem = () => {
     }
 
     const drawSpace = (width, height, time) => {
-      const bg = ctx.createRadialGradient(width * 0.48, height * 0.38, 10, width * 0.5, height * 0.52, Math.max(width, height))
-      bg.addColorStop(0, '#27336a')
-      bg.addColorStop(0.32, '#080e2b')
-      bg.addColorStop(0.68, '#02040f')
-      bg.addColorStop(1, '#000')
-      ctx.fillStyle = bg
+      ctx.fillStyle = '#000'
       ctx.fillRect(0, 0, width, height)
-
-      const nebulaA = ctx.createRadialGradient(width * 0.22, height * 0.28, 0, width * 0.22, height * 0.28, width * 0.5)
-      nebulaA.addColorStop(0, 'rgba(115, 86, 195, 0.24)')
-      nebulaA.addColorStop(0.45, 'rgba(36, 139, 187, 0.10)')
-      nebulaA.addColorStop(1, 'rgba(0,0,0,0)')
-      ctx.fillStyle = nebulaA
-      ctx.fillRect(0, 0, width, height)
-
-      const nebulaB = ctx.createRadialGradient(width * 0.78, height * 0.62, 0, width * 0.78, height * 0.62, width * 0.45)
-      nebulaB.addColorStop(0, 'rgba(232, 158, 74, 0.13)')
-      nebulaB.addColorStop(0.5, 'rgba(82, 117, 255, 0.08)')
-      nebulaB.addColorStop(1, 'rgba(0,0,0,0)')
-      ctx.fillStyle = nebulaB
-      ctx.fillRect(0, 0, width, height)
-
-      ctx.save()
-      ctx.translate(width * 0.52, height * 0.48)
-      ctx.rotate(-0.32)
-      const galaxy = ctx.createLinearGradient(-width * 0.55, 0, width * 0.55, 0)
-      galaxy.addColorStop(0, 'rgba(255,255,255,0)')
-      galaxy.addColorStop(0.18, 'rgba(116,166,255,0.08)')
-      galaxy.addColorStop(0.5, 'rgba(255,255,255,0.22)')
-      galaxy.addColorStop(0.82, 'rgba(194,119,255,0.08)')
-      galaxy.addColorStop(1, 'rgba(255,255,255,0)')
-      ctx.fillStyle = galaxy
-      ctx.filter = 'blur(18px)'
-      ctx.beginPath()
-      ctx.ellipse(0, 0, width * 0.64, height * 0.085, 0, 0, Math.PI * 2)
-      ctx.fill()
-      ctx.filter = 'none'
-      ctx.restore()
 
       dustRef.current.forEach((dust) => {
         const x = ((dust.x * width) + Math.sin(time * 0.15 + dust.drift) * 18) % width

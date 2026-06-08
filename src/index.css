@@ -536,14 +536,13 @@ body {
    SOLAR SYSTEM 360 SECTION
    Chức năng quan sát hệ mặt trời ngay bên dưới ảnh nghệ thuật.
    ========================= */
+/* =========================
+   BẮT ĐẦU CSS CHỨC NĂNG QUAN SÁT HỆ MẶT TRỜI
+   ========================= */
 .solar-system-section {
     position: relative;
     padding: 90px 20px 120px;
-    background:
-        radial-gradient(circle at 18% 16%, rgba(104, 79, 191, 0.22), transparent 34%),
-        radial-gradient(circle at 74% 40%, rgba(59, 147, 202, 0.18), transparent 32%),
-        radial-gradient(circle at 86% 74%, rgba(231, 211, 147, 0.12), transparent 28%),
-        #000;
+    background: #000;
     isolation: isolate;
 }
 
@@ -552,12 +551,8 @@ body {
     position: absolute;
     inset: 0;
     z-index: -1;
-    opacity: 0.34;
-    background-image:
-        linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
-    background-size: 96px 96px;
-    mask-image: radial-gradient(circle at center, black, transparent 68%);
+    opacity: 0;
+    background-image: none;
 }
 
 .solar-system-shell {
@@ -1761,3 +1756,7 @@ body {
     }
 
 }
+
+/* =========================
+   KẾT THÚC CSS CHỨC NĂNG QUAN SÁT HỆ MẶT TRỜI
+   ========================= */
