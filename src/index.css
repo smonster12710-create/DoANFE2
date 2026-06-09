@@ -707,16 +707,21 @@ body {
     width: clamp(112px, 15vw, 180px);
     aspect-ratio: 1;
     border-radius: 50%;
-    background:
-        linear-gradient(90deg, transparent 0 18%, rgba(255, 255, 255, 0.14) 22%, transparent 28%, rgba(0, 0, 0, 0.16) 44%, transparent 58%, rgba(255, 255, 255, 0.12) 66%, transparent 76%),
-        radial-gradient(circle at 30% 28%, rgba(255, 255, 255, 0.62), transparent 0 19%, rgba(255, 255, 255, 0.15) 27%, transparent 42%),
-        radial-gradient(circle at 70% 78%, rgba(0, 0, 0, 0.46), transparent 50%),
-        var(--planet-color);
-    background-size: 220% 100%, 100% 100%, 100% 100%, 100% 100%;
+    background-color: var(--planet-color);
+    background-image:
+        linear-gradient(90deg, rgba(0, 0, 0, 0.36), transparent 24%, transparent 66%, rgba(0, 0, 0, 0.5)),
+        radial-gradient(circle at 30% 25%, rgba(255, 255, 255, 0.48), transparent 0 22%, rgba(255, 255, 255, 0.08) 34%, transparent 52%),
+        var(--planet-texture);
+    background-size: 220% 100%, 100% 100%, 200% 100%;
+    background-repeat: no-repeat, no-repeat, repeat-x;
+    background-position: 0% 50%, center, 0% 50%;
     box-shadow:
+        inset 18px -18px 34px rgba(0, 0, 0, 0.58),
+        inset -10px 10px 24px rgba(255, 255, 255, 0.18),
         0 0 35px color-mix(in srgb, var(--planet-color), transparent 20%),
         0 0 80px color-mix(in srgb, var(--planet-color), transparent 55%);
     animation: planet-preview-spin 5.6s linear infinite;
+    transform-style: preserve-3d;
 }
 
 .planet-detail-sphere.has-ring::before {
@@ -739,8 +744,17 @@ body {
     right: -34px;
     top: 28px;
     border-radius: 50%;
-    background: #d8d8d8;
-    box-shadow: 0 0 18px rgba(255, 255, 255, 0.55);
+    background-color: #d8d8d8;
+    background-image:
+        linear-gradient(90deg, rgba(0, 0, 0, 0.34), transparent 42%, rgba(255, 255, 255, 0.18)),
+        url('/textures/planets/moon.jpg');
+    background-size: 100% 100%, 200% 100%;
+    background-repeat: no-repeat, repeat-x;
+    background-position: center, 0% 50%;
+    box-shadow:
+        inset 4px -4px 8px rgba(0, 0, 0, 0.5),
+        0 0 18px rgba(255, 255, 255, 0.55);
+    animation: moon-preview-spin 4.8s linear infinite;
 }
 
 .planet-detail-info {
@@ -783,27 +797,7 @@ body {
     color: #fff;
 }
 
-.solar-system-controls {
-    position: absolute;
-    left: 22px;
-    right: 22px;
-    bottom: 20px;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-    padding: 14px;
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    border-radius: 8px;
-    background:
-        linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02)),
-        rgba(3, 5, 15, 0.76);
-    backdrop-filter: blur(12px);
-}
-
-.solar-system-controls button,
-.planet-picker button {
+.solar-system-controls button {
     cursor: pointer;
     border: 1px solid rgba(255, 255, 255, 0.18);
     border-radius: 8px;
@@ -812,59 +806,128 @@ body {
     transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
 }
 
-.solar-system-controls button {
-    padding: 10px 16px;
-}
-
-.solar-system-controls button:hover,
-.planet-picker button:hover,
-.planet-picker button.active {
+.solar-system-controls button:hover {
     transform: translateY(-2px);
     border-color: rgba(231, 211, 147, 0.72);
     background: rgba(231, 211, 147, 0.12);
 }
 
-.solar-system-controls label {
+.solar-system-controls {
+    position: absolute;
+    left: 50%;
+    bottom: 18px;
+    z-index: 20;
+    width: min(780px, calc(100% - 28px));
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 10px 12px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 999px;
+    background: rgba(6, 9, 24, 0.72);
+    backdrop-filter: blur(14px);
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.38);
+}
+
+.control-buttons-row {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    flex-shrink: 0;
+}
+
+.solar-system-controls button {
     display: inline-flex;
     align-items: center;
-    gap: 10px;
-    color: rgba(255, 255, 255, 0.84);
-    font-size: 14px;
+    justify-content: center;
+    gap: 7px;
+    min-height: 38px;
+    padding: 8px 12px;
+    white-space: nowrap;
 }
 
-.solar-system-controls input {
-    width: 140px;
-    accent-color: #e7d393;
-}
-
-.solar-system-controls span {
-    min-width: 36px;
+.solar-system-controls .btn-icon {
     color: #e7d393;
+    font-size: 15px;
+    line-height: 1;
+}
+
+.solar-system-controls .btn-text {
+    color: #fff;
+    font-size: 13px;
     font-weight: 700;
 }
 
-.planet-picker {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 10px;
-    margin-top: 22px;
-}
-
-.planet-picker button {
+.speed-control-box {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
-    padding: 10px 14px;
-    font-size: 14px;
+    gap: 10px;
+    color: rgba(255, 255, 255, 0.78);
+    font-size: 13px;
+    white-space: nowrap;
+    flex-shrink: 0;
 }
 
-.planet-picker span {
-    display: inline-block;
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    box-shadow: 0 0 12px currentColor;
+.speed-control-box input {
+    width: 116px;
+    height: 4px;
+    accent-color: #e7d393;
+    cursor: pointer;
+}
+
+.speed-value {
+    min-width: 34px;
+    color: #e7d393;
+    font-family: monospace;
+    font-weight: 700;
+    text-align: right;
+}
+
+@media (max-width: 768px) {
+    .solar-system-controls {
+        bottom: 14px;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+        width: min(360px, calc(100% - 24px));
+        padding: 12px;
+        border-radius: 14px;
+    }
+
+    .control-buttons-row {
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .solar-system-controls button {
+        width: 42px;
+        height: 42px;
+        min-height: 42px;
+        padding: 0;
+        border-radius: 50%;
+    }
+
+    .solar-system-controls .btn-icon {
+        font-size: 16px;
+    }
+
+    .solar-system-controls .btn-text {
+        display: none;
+    }
+
+    .speed-control-box {
+        justify-content: space-between;
+        width: 100%;
+        gap: 12px;
+    }
+
+    .speed-control-box input {
+        flex: 1;
+        width: auto;
+        min-width: 90px;
+    }
 }
 
 @keyframes planet-card-in {
@@ -881,13 +944,25 @@ body {
 
 @keyframes planet-preview-spin {
     from {
-        background-position: 0% 0, center, center, center;
-        transform: rotate(-1deg);
+        background-position: 0% 50%, center, 0% 50%;
+        transform: rotate3d(1, 0.18, 0, 10deg);
     }
 
     to {
-        background-position: 220% 0, center, center, center;
-        transform: rotate(359deg);
+        background-position: 220% 50%, center, 200% 50%;
+        transform: rotate3d(1, 0.18, 0, 10deg);
+    }
+}
+
+@keyframes moon-preview-spin {
+    from {
+        background-position: center, 0% 50%;
+        transform: rotate3d(1, 0.1, 0, 8deg);
+    }
+
+    to {
+        background-position: center, 200% 50%;
+        transform: rotate3d(1, 0.1, 0, 8deg);
     }
 }
 
@@ -914,16 +989,6 @@ body {
     .solar-system-stage canvas {
         min-height: 640px;
         height: 640px;
-    }
-
-    .solar-system-controls {
-        left: 10px;
-        right: 10px;
-        bottom: 10px;
-    }
-
-    .solar-system-controls input {
-        width: 100px;
     }
 
     .planet-detail-card {
@@ -968,47 +1033,6 @@ body {
         position: relative;
     }
 
-    /* 2. Thu gọn và đẩy 2 nút chức năng ra góc màn hình (Floating) */
-    .solar-system-controls {
-        position: absolute;
-        bottom: 30px;
-        /* Đẩy sát xuống góc dưới */
-        right: 20px;
-        /* Né sang bên phải */
-        left: auto;
-        /* Hủy bỏ căn giữa nếu có */
-        top: auto;
-        width: auto;
-        /* Không cho chiếm 100% chiều rộng nữa */
-        height: auto;
-        /* Không cho chiếm 100% chiều cao nữa */
-        background: transparent !important;
-        /* Xóa màu nền bọc ngoài */
-
-        display: flex;
-        flex-direction: column;
-        /* Xếp dọc 2 nút */
-        gap: 10px;
-        z-index: 10;
-        /* Nổi lên trên Canvas để bấm được */
-    }
-
-    /* 3. Style lại cho 2 cái nút nhỏ nhắn, xinh xắn hơn */
-    .solar-system-controls button {
-        width: 130px;
-        /* Thu nhỏ chiều rộng nút */
-        padding: 10px;
-        font-size: 12px;
-        /* Chữ nhỏ lại cho tinh tế */
-        background: rgba(255, 255, 255, 0.1);
-        /* Nền mờ xuyên thấu */
-        backdrop-filter: blur(5px);
-        /* Hiệu ứng kính mờ chuẩn UI hiện đại */
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        color: #ffffff;
-        border-radius: 8px;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-    }
 }
 
 @media (max-width: 768px) {
@@ -1180,34 +1204,6 @@ body {
         font-weight: normal !important;
     }
 
-    /* 7. CĂN CHỈNH LẠI 2 NÚT ĐẶT LẠI GÓC NHÌN / TOÀN MÀN HÌNH NẰM NGANG Ở ĐÁY */
-    .solar-system-controls {
-        position: absolute;
-        bottom: 25px;
-        left: 50% !important;
-        right: auto !important;
-        top: auto !important;
-        transform: translateX(-50%);
-        /* Căn giữa màn hình */
-        display: flex !important;
-        flex-direction: row !important;
-        /* Xếp hàng ngang */
-        gap: 12px !important;
-        width: max-content !important;
-        height: auto !important;
-        background: transparent !important;
-    }
-
-    .solar-system-controls button {
-        white-space: nowrap !important;
-        width: auto !important;
-        padding: 8px 16px !important;
-        font-size: 12px !important;
-        background: rgba(255, 255, 255, 0.08) !important;
-        border: 1px solid rgba(255, 255, 255, 0.15) !important;
-        border-radius: 6px !important;
-        color: #fff !important;
-    }
 }
 
 @media (max-width: 768px) {
@@ -1395,250 +1391,6 @@ body {
     }
 }
 
-@media (max-width: 768px) {
-
-    /* 1. KHUNG TỔNG: Chuyển thành hàng dọc để tách nút và thanh tốc độ ra */
-    .solar-system-controls {
-        position: absolute;
-        bottom: 25px;
-        /* Khoảng cách an toàn với đáy màn hình mobile */
-        left: 50% !important;
-        right: auto !important;
-        top: auto !important;
-        transform: translateX(-50%);
-        /* Luôn căn giữa chính xác */
-
-        display: flex !important;
-        flex-direction: column !important;
-        /* Xếp dọc: Hàng nút ở trên, tốc độ ở dưới */
-        align-items: center !important;
-        gap: 15px !important;
-        /* Tạo khoảng cách thông thoáng giữa hàng nút và thanh trượt */
-
-        width: calc(100% - 40px) !important;
-        /* Giới hạn chiều ngang cách lề màn hình 20px mỗi bên */
-        max-width: 360px !important;
-        height: auto !important;
-        background: transparent !important;
-        pointer-events: auto !important;
-        /* Bật cảm ứng để bấm được */
-        z-index: 100;
-        box-sizing: border-box;
-    }
-
-    /* 2. ĐỊNH DẠNG RIÊNG CHO 3 NÚT BẤM (Tạm dừng, Đặt lại, Toàn màn hình) */
-    /* Ép 3 nút này tự động chia đều không gian trên cùng một hàng ngang */
-    .solar-system-controls>button {
-        flex: 1 !important;
-        /* Chia đều 1/3 chiều rộng cho mỗi nút */
-        display: inline-block;
-        white-space: nowrap !important;
-        /* Tuyệt đối không cho chữ nhảy xuống hàng */
-        padding: 10px 8px !important;
-        /* Tăng chiều cao nút lên chút cho dễ chạm ngón tay */
-        font-size: 11px !important;
-        text-align: center;
-
-        /* Style kính mờ mượt mà */
-        background: rgba(15, 15, 30, 0.7) !important;
-        backdrop-filter: blur(8px);
-        -webkit-backdrop-filter: blur(8px);
-        border: 1px solid rgba(255, 255, 255, 0.15) !important;
-        border-radius: 8px !important;
-        color: #ffffff !important;
-    }
-
-    /* Mẹo tạo khoảng cách (margin) nhẹ giữa 3 cái nút với nhau để không bị dính lẹo */
-    .solar-system-controls>button:not(:last-child) {
-        margin-right: 8px;
-        /* Khoảng cách nhỏ giữa nút 1 -> nút 2 -> nút 3 */
-    }
-
-    /* 3. THANH CHỈNH TỐC ĐỘ (NẰM TRỌN VẸN Ở HÀNG DƯỚI) */
-    .speed-control-box {
-        width: 100% !important;
-        /* Giãn rộng bằng chiều ngang của cả cụm nút phía trên */
-        background: rgba(15, 15, 30, 0.7);
-        backdrop-filter: blur(8px);
-        -webkit-backdrop-filter: blur(8px);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 8px;
-        padding: 8px 12px;
-        box-sizing: border-box;
-    }
-
-    .speed-control-box label {
-        display: flex !important;
-        align-items: center !important;
-        justify-content: space-between !important;
-        /* Đẩy chữ "Tốc độ" sang trái, số "1.0x" sang phải */
-        width: 100%;
-        color: #888899;
-        font-size: 11px;
-        margin: 0;
-        gap: 12px;
-    }
-
-    /* Thanh input kéo slider ở giữa */
-    .speed-control-box input[type="range"] {
-        flex: 1;
-        /* Tự động kéo dài ra chiếm hết khoảng trống ở giữa */
-        height: 4px;
-        accent-color: #4ea3ff;
-        /* Nút tròn kéo màu xanh neon */
-        background: rgba(255, 255, 255, 0.2);
-        border-radius: 2px;
-        cursor: pointer;
-    }
-
-    /* Con số hiển thị tốc độ (ví dụ 0.2x, 5.0x) */
-    .speed-value {
-        color: #ffffff !important;
-        font-weight: bold;
-        font-family: monospace;
-        min-width: 32px;
-        text-align: right;
-    }
-
-    /* 1. KHUNG CHỨA 3 NÚT ICON: Ép luôn luôn nằm trên một hàng ngang */
-    .control-buttons-row {
-        display: flex !important;
-        flex-direction: row !important;
-        /* Ép xếp hàng ngang */
-        justify-content: flex-start;
-        /* Hoặc center tùy cậu muốn căn giữa hay lệch trái */
-        align-items: center;
-        gap: 12px;
-        /* Khoảng cách giữa các nút tròn */
-        width: 100%;
-        /* Cho phép chiếm hết chiều ngang hàng trên */
-
-        /* Tạo khoảng cách thông thoáng với thanh slider ở dưới */
-    }
-
-    /* 2. ĐỐI VỚI CÁC NÚT ICON TRÒN */
-    .solar-system-controls button {
-        width: 40px !important;
-        /* Cố định chiều rộng */
-        height: 40px !important;
-        /* Cố định chiều cao để tạo hình tròn hoàn hảo */
-        flex-shrink: 0 !important;
-        /* CẤM trình duyệt tự ý bóp méo hoặc co nhỏ nút */
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-
-        /* Các thuộc tính background, border, border-radius: 50% của cậu giữ nguyên nhé */
-    }
-
-    /* 3. KHUNG BAO TỔNG CỦA CẢ CỤM (Cái hộp bo góc to đùm trong ảnh) */
-    .solar-system-controls {
-        display: flex !important;
-        flex-direction: column !important;
-        /* Hàng trên là nút, hàng dưới là thanh tốc độ */
-        align-items: stretch;
-        /* Cho các thành phần bên trong giãn đều */
-        padding: 16px;
-        /* Khoảng đệm xung quanh bảng */
-        width: 180px;
-        /* Tăng nhẹ chiều rộng của cả cái bảng lên một chút cho thoải mái */
-        box-sizing: border-box;
-    }
-}
-
-/* DÀNH CHO BẢN PC/DESKTOP (Nằm ngoài các thẻ @media) */
-.solar-system-controls {
-    position: absolute;
-    bottom: 30px;
-    /* Cách đáy màn hình PC một khoảng thoáng đãng */
-    left: 50%;
-    transform: translateX(-50%);
-    /* Căn giữa chính xác giữa màn hình */
-
-    display: flex;
-    flex-direction: row;
-    /* Ép tất cả xếp thành MỘT HÀNG NGANG duy nhất */
-    align-items: center;
-    /* Căn giữa các nút và thanh trượt theo chiều dọc */
-    gap: 20px;
-    /* Khoảng cách rộng rãi giữa các nút, không bao giờ bị dính sát */
-
-    background: rgba(10, 10, 20, 0.5);
-    /* Nền kính mờ tối nhẹ cho cả cụm */
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 30px;
-    /* Bo tròn kiểu viên thuốc dài siêu sang */
-    padding: 10px 24px;
-    /* Khoảng đệm bên trong hộp */
-
-    width: max-content;
-    /* Tự động phình to vừa khít theo các nút bên trong */
-    z-index: 100;
-}
-
-/* Style cho từng nút bấm trên PC */
-.solar-system-controls button {
-    margin: 5px;
-    background: rgba(255, 255, 255, 0.05) !important;
-    border: 1px solid rgba(255, 255, 255, 0.15) !important;
-    color: #ffffff !important;
-    padding: 8px 16px !important;
-    font-size: 13px !important;
-    border-radius: 20px !important;
-    /* Bo tròn nút cho đồng bộ với khung cha */
-    cursor: pointer;
-    white-space: nowrap;
-    /* Chống nhảy chữ */
-    transition: all 0.2s ease;
-}
-
-/* Hiệu ứng khi rê chuột vào nút trên PC */
-.solar-system-controls button:hover {
-    background: rgba(255, 255, 255, 0.15) !important;
-    border-color: rgba(255, 255, 255, 0.3) !important;
-    transform: translateY(-1px);
-    /* Nhấc nhẹ nút lên khi hover */
-}
-
-/* Khối bọc thanh trượt tốc độ trên PC */
-.speed-control-box {
-    display: flex;
-    align-items: center;
-}
-
-.speed-control-box label {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    /* Khoảng cách giữa chữ "Tốc độ" - thanh kéo - số x */
-    color: #aaaabb;
-    font-size: 13px;
-    margin: 0;
-    white-space: nowrap;
-}
-
-/* Thanh trượt kéo dài thanh thoát trên PC */
-.speed-control-box input[type="range"] {
-    width: 100px;
-    /* Trên PC cho thanh kéo dài ra nhìn cho sang */
-    height: 4px;
-    accent-color: #4ea3ff;
-    /* Nút tròn kéo màu xanh công nghệ */
-    background: rgba(255, 255, 255, 0.2);
-    border-radius: 2px;
-    cursor: pointer;
-}
-
-/* Con số hiển thị tốc độ */
-.speed-value {
-    color: #4ea3ff !important;
-    font-weight: bold;
-    font-family: monospace;
-    min-width: 32px;
-}
-
 /* ==========================================================================
    1. TRÊN PC: KHUNG 3D LUÔN LÀ HÌNH CHỮ NHẬT CỐ ĐỊNH, KHÔNG ĐỔI KÍCH THƯỚC
    ========================================================================== */
@@ -1659,102 +1411,6 @@ body {
     width: 100% !important;
     height: 100% !important;
     display: block !important;
-}
-
-.control-buttons-row {
-    display: flex !important;
-    flex-direction: row !important;
-    /* Xếp hàng ngang */
-
-    /* CHÌA KHÓA Ở ĐÂY: Đổi từ flex-start sang center để gom các nút vào giữa */
-    justify-content: center !important;
-
-    align-items: center !important;
-    gap: 12px;
-    /* Khoảng cách giữa các nút tròn */
-    width: 100%;
-
-}
-
-/* ==========================================================================
-   MẶC ĐỊNH TRÊN PC (HIỆN CHỮ - ẨN ICON)
-   ========================================================================== */
-
-/* Khung chứa các nút trên PC dạt hàng ngang rộng rãi */
-.control-buttons-row {
-    display: flex !important;
-    flex-direction: row !important;
-    justify-content: center !important;
-    align-items: center !important;
-    gap: 12px;
-    width: 100%;
-
-}
-
-/* Style nút dạng chữ nằm ngang trên PC */
-.control-buttons-row button {
-    width: auto !important;
-    /* Bỏ kích thước tròn cố định trên PC */
-    height: auto !important;
-    padding: 8px 16px !important;
-    border-radius: 20px !important;
-    /* Bo tròn kiểu viên thuốc dài */
-    font-size: 13px !important;
-    white-space: nowrap !important;
-}
-
-/* CHÌA KHÓA TRÊN PC: Giấu cái icon đi, chỉ hiện chữ */
-.control-buttons-row button .btn-icon {
-    display: none !important;
-}
-
-.control-buttons-row button .btn-text {
-    display: inline !important;
-}
-
-.control-buttons-row button .btn-text {
-    display: inline !important;
-    color: #ffffff !important;
-    /* Ép chữ bắt buộc phải màu trắng */
-}
-
-.speed-label-text {
-    color: #ffffff !important;
-}
-
-/* ==========================================================================
-   KHI SANG MOBILE (MAX-WIDTH: 768PX) -> BIẾN THÀNH ICON TRÒN
-   ========================================================================== */
-@media (max-width: 768px) {
-
-
-    .control-buttons-row button {
-        width: 40px !important;
-        height: 40px !important;
-        padding: 0 !important;
-        border-radius: 50% !important;
-        /* Tròn xoe */
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-    }
-
-
-    .control-buttons-row button .btn-icon {
-        display: inline !important;
-        font-size: 16px !important;
-        color: #ffffff !important;
-    }
-
-    .control-buttons-row button .btn-text {
-        display: none !important;
-        color: #ffffff !important;
-    }
-
-    .speed-label-text {
-        color: #ffffff !important;
-    }
-
 }
 
 /* =========================

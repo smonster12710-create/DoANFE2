@@ -8,7 +8,7 @@ const planets = [
     orbit: 48,
     speed: 4.15,
     color: '#b9a48d',
-    texture: ['#d7c0a6', '#8c7b68', '#6f635a'],
+    texture: '/textures/planets/mercury.jpg',
     diameter: '4.879 km',
     day: '58,6 ngày Trái Đất',
     year: '88 ngày Trái Đất',
@@ -22,7 +22,7 @@ const planets = [
     orbit: 72,
     speed: 1.62,
     color: '#e8c27a',
-    texture: ['#ffe0a4', '#d79a4c', '#8f6335'],
+    texture: '/textures/planets/venus.jpg',
     diameter: '12.104 km',
     day: '243 ngày Trái Đất',
     year: '225 ngày Trái Đất',
@@ -36,7 +36,7 @@ const planets = [
     orbit: 100,
     speed: 1,
     color: '#4ea3ff',
-    texture: ['#63b8ff', '#2c7d4f', '#f4f7ff'],
+    texture: '/textures/planets/earth.jpg',
     moon: true,
     diameter: '12.742 km',
     day: '24 giờ',
@@ -51,7 +51,7 @@ const planets = [
     orbit: 132,
     speed: 0.53,
     color: '#d36b45',
-    texture: ['#ef8a5a', '#9e3f2d', '#f1c194'],
+    texture: '/textures/planets/mars.jpg',
     diameter: '6.779 km',
     day: '24 giờ 37 phút',
     year: '687 ngày Trái Đất',
@@ -65,7 +65,7 @@ const planets = [
     orbit: 180,
     speed: 0.084,
     color: '#d7b48a',
-    texture: ['#f0d6aa', '#b98355', '#fff1d3'],
+    texture: '/textures/planets/jupiter.jpg',
     diameter: '139.820 km',
     day: '9 giờ 56 phút',
     year: '11,86 năm Trái Đất',
@@ -79,7 +79,7 @@ const planets = [
     orbit: 230,
     speed: 0.034,
     color: '#d9c081',
-    texture: ['#f1d99a', '#ad8c53', '#fff0bc'],
+    texture: '/textures/planets/saturn.jpg',
     ring: true,
     diameter: '116.460 km',
     day: '10 giờ 42 phút',
@@ -94,7 +94,7 @@ const planets = [
     orbit: 278,
     speed: 0.012,
     color: '#8bd6df',
-    texture: ['#a7edf0', '#65b6c7', '#d6ffff'],
+    texture: '/textures/planets/uranus.jpg',
     diameter: '50.724 km',
     day: '17 giờ 14 phút',
     year: '84 năm Trái Đất',
@@ -108,7 +108,7 @@ const planets = [
     orbit: 322,
     speed: 0.006,
     color: '#5275ff',
-    texture: ['#7fa1ff', '#2444b8', '#b9c8ff'],
+    texture: '/textures/planets/neptune.jpg',
     diameter: '49.244 km',
     day: '16 giờ 6 phút',
     year: '164,8 năm',
@@ -116,6 +116,38 @@ const planets = [
     note: 'Hành tinh xa nhất, có màu xanh đậm và những cơn gió rất mạnh.',
   },
 ]
+
+const sunObject = {
+  name: 'Sun',
+  vi: 'Mặt Trời',
+  type: 'Ngôi sao',
+  color: '#ffd04b',
+  texture: '/textures/planets/sun.jpg',
+  detailZoom: 7.8,
+  note: 'Trung tâm của hệ mặt trời, cung cấp ánh sáng và năng lượng cho các hành tinh.',
+  details: [
+    ['Đường kính:', '1.392.700 km'],
+    ['Chu kỳ tự quay:', 'khoảng 25 - 35 ngày'],
+    ['Khoảng cách đến Trái Đất:', 'khoảng 149,6 triệu km'],
+    ['Nhiệt độ bề mặt:', 'khoảng 5.500°C'],
+  ],
+}
+
+const moonObject = {
+  name: 'Moon',
+  vi: 'Mặt Trăng',
+  type: 'Vệ tinh tự nhiên',
+  color: '#d8d8d8',
+  texture: '/textures/planets/moon.jpg',
+  detailZoom: 12,
+  note: 'Vệ tinh tự nhiên duy nhất của Trái Đất, ảnh hưởng đến thủy triều và chu kỳ tự nhiên.',
+  details: [
+    ['Đường kính:', '3.474 km'],
+    ['Chu kỳ quỹ đạo:', 'khoảng 27,3 ngày'],
+    ['Khoảng cách TB đến Trái Đất:', 'khoảng 384.400 km'],
+    ['Trọng lực:', 'khoảng 1,62 m/s²'],
+  ],
+}
 
 const createStars = (count) => Array.from({ length: count }, () => ({
   x: Math.random() * 2 - 1,
@@ -156,14 +188,24 @@ const normalizeAngle = (angle) => {
   return ((angle % full) + full) % full
 }
 
-const getPlanetZoom = (planet) => Math.max(6.2, Math.min(10.4, 11.2 - planet.radius * 0.28))
+const getObjectZoom = (object) => object.detailZoom ?? Math.max(6.2, Math.min(10.4, 11.2 - object.radius * 0.28))
+
+const getObjectDetails = (object) => object.details ?? [
+  ['Đường kính:', object.diameter],
+  ['Ngày:', object.day],
+  ['Năm:', object.year],
+  ['Khoảng cách TB:', object.distance],
+]
 
 const SolarSystem = () => {
   const canvasRef = useRef(null)
   const stageRef = useRef(null)
   const frameRef = useRef(null)
   const hitRef = useRef([])
+  const textureImagesRef = useRef({})
   const selectedPlanetRef = useRef(null)
+  const isPlayingRef = useRef(true)
+  const speedRef = useRef(1)
   const stateRef = useRef({
     yaw: -0.45,
     pitch: 0.62,
@@ -189,8 +231,25 @@ const SolarSystem = () => {
   const [isFullscreen, setIsFullscreen] = useState(false)
 
   useEffect(() => {
+    ;[sunObject, moonObject, ...planets].forEach((object) => {
+      if (textureImagesRef.current[object.texture]) return
+      const image = new Image()
+      image.src = object.texture
+      textureImagesRef.current[object.texture] = image
+    })
+  }, [])
+
+  useEffect(() => {
     selectedPlanetRef.current = selectedPlanet
   }, [selectedPlanet])
+
+  useEffect(() => {
+    isPlayingRef.current = isPlaying
+  }, [isPlaying])
+
+  useEffect(() => {
+    speedRef.current = speed
+  }, [speed])
 
   useEffect(() => {
     const onFullscreenChange = () => {
@@ -381,32 +440,32 @@ const SolarSystem = () => {
       ctx.shadowBlur = 0
     }
 
-    const drawPlanetBody = (planet, x, y, radius, spin) => {
+    const drawTexturedSphere = (object, x, y, radius, spin, light = 0.28) => {
       ctx.save()
       ctx.beginPath()
       ctx.arc(x, y, radius, 0, Math.PI * 2)
       ctx.clip()
 
-      const base = ctx.createRadialGradient(x - radius * 0.35, y - radius * 0.42, radius * 0.1, x, y, radius * 1.1)
-      base.addColorStop(0, planet.texture[0])
-      base.addColorStop(0.55, planet.color)
-      base.addColorStop(1, '#070812')
-      ctx.fillStyle = base
-      ctx.fillRect(x - radius, y - radius, radius * 2, radius * 2)
+      const image = textureImagesRef.current[object.texture]
+      if (image?.complete && image.naturalWidth > 0) {
+        const textureWidth = image.naturalWidth
+        const textureHeight = image.naturalHeight
+        const offset = Math.floor((normalizeAngle(spin) / (Math.PI * 2)) * textureWidth)
+        const firstWidth = textureWidth - offset
+        const firstDestWidth = (firstWidth / textureWidth) * radius * 2
 
-      for (let i = -3; i <= 3; i += 1) {
-        const stripeY = y + (i * radius) / 4 + Math.sin(spin + i) * radius * 0.08
-        const stripeHeight = Math.max(1.2, radius * (planet.name === 'Jupiter' || planet.name === 'Saturn' ? 0.16 : 0.08))
-        ctx.globalAlpha = planet.name === 'Earth' ? 0.35 : 0.28
-        ctx.fillStyle = i % 2 === 0 ? planet.texture[1] : planet.texture[2]
-        ctx.beginPath()
-        ctx.ellipse(x + Math.sin(spin * 0.9 + i) * radius * 0.45, stripeY, radius * 1.25, stripeHeight, Math.sin(spin) * 0.12, 0, Math.PI * 2)
-        ctx.fill()
+        ctx.drawImage(image, offset, 0, firstWidth, textureHeight, x - radius, y - radius, firstDestWidth, radius * 2)
+        if (offset > 0) {
+          ctx.drawImage(image, 0, 0, offset, textureHeight, x - radius + firstDestWidth, y - radius, radius * 2 - firstDestWidth, radius * 2)
+        }
+      } else {
+        ctx.fillStyle = object.color
+        ctx.fillRect(x - radius, y - radius, radius * 2, radius * 2)
       }
 
       ctx.globalAlpha = 1
       const shade = ctx.createRadialGradient(x - radius * 0.3, y - radius * 0.35, radius * 0.15, x + radius * 0.25, y + radius * 0.25, radius * 1.1)
-      shade.addColorStop(0, 'rgba(255,255,255,0.28)')
+      shade.addColorStop(0, `rgba(255,255,255,${light})`)
       shade.addColorStop(0.48, 'rgba(255,255,255,0.03)')
       shade.addColorStop(1, 'rgba(0,0,0,0.62)')
       ctx.fillStyle = shade
@@ -428,7 +487,7 @@ const SolarSystem = () => {
       const delta = Math.min(0.04, (now - lastTime) / 1000)
       lastTime = now
       const state = stateRef.current
-      if (isPlaying) state.time += delta * speed
+      if (isPlayingRef.current) state.time += delta * speedRef.current
       state.zoom += (state.targetZoom - state.zoom) * 0.14
 
       const planetPoints = planets.map((planet, index) => {
@@ -439,8 +498,20 @@ const SolarSystem = () => {
         return { planet, point: { x, y, z }, angle, index }
       })
 
-      const selectedPoint = planetPoints.find(({ planet }) => selectedPlanetRef.current?.name === planet.name)
-      state.targetFocus = selectedPoint ? selectedPoint.point : { x: 0, y: 0, z: 0 }
+      const earthPoint = planetPoints.find(({ planet }) => planet.moon)
+      const moonAngle = earthPoint ? state.time * 8 + earthPoint.angle : 0
+      const moonWorldPoint = earthPoint ? {
+        x: earthPoint.point.x + Math.cos(moonAngle) * 15,
+        y: earthPoint.point.y + Math.sin(moonAngle) * 5,
+        z: earthPoint.point.z + Math.sin(moonAngle) * 15,
+      } : null
+      const selectedName = selectedPlanetRef.current?.name
+      const selectedPoint = selectedName === sunObject.name
+        ? { x: 0, y: 0, z: 0 }
+        : selectedName === moonObject.name
+          ? moonWorldPoint
+          : planetPoints.find(({ planet }) => selectedName === planet.name)?.point
+      state.targetFocus = selectedPoint ?? { x: 0, y: 0, z: 0 }
       state.focus.x += (state.targetFocus.x - state.focus.x) * 0.12
       state.focus.y += (state.targetFocus.y - state.focus.y) * 0.12
       state.focus.z += (state.targetFocus.z - state.focus.z) * 0.12
@@ -453,17 +524,15 @@ const SolarSystem = () => {
       drawAsteroidBelt(width, height, state.time)
 
       const sun = project({ x: 0, y: 0, z: 0 }, width, height)
+      const sunRadius = Math.max(12, 18 * sun.scale)
+      const isSunSelected = selectedName === sunObject.name
+      if (isSunSelected) {
+        drawGlowCircle(sun.x, sun.y, sunRadius + 7, 'rgba(255,222,94,0.5)', 34)
+      }
       drawGlowCircle(sun.x, sun.y, 24 * sun.scale, 'rgba(255,222,94,0.95)', 48 * sun.scale)
       drawSunFlares(sun.x, sun.y, sun.scale)
-      const sunGradient = ctx.createRadialGradient(sun.x - 8, sun.y - 9, 2, sun.x, sun.y, Math.max(13, 18 * sun.scale))
-      sunGradient.addColorStop(0, '#fff8b8')
-      sunGradient.addColorStop(0.5, '#ffd04b')
-      sunGradient.addColorStop(1, '#e9792e')
-      ctx.fillStyle = sunGradient
-      ctx.beginPath()
-      ctx.arc(sun.x, sun.y, Math.max(12, 18 * sun.scale), 0, Math.PI * 2)
-      ctx.fill()
-      drawLabel('Mặt Trời', sun.x, sun.y + 36 * sun.scale, false)
+      drawTexturedSphere(sunObject, sun.x, sun.y, sunRadius, state.time * 0.65, 0.44)
+      drawLabel(sunObject.vi, sun.x, sun.y + 36 * sun.scale, isSunSelected)
 
       const sortedPlanetPoints = planetPoints.sort((a, b) => {
         const aPoint = {
@@ -479,7 +548,9 @@ const SolarSystem = () => {
         return rotatePoint(aPoint).z - rotatePoint(bPoint).z
       })
 
-      const hits = []
+      const hits = [
+        { planet: sunObject, x: sun.x, y: sun.y, radius: Math.max(26, sunRadius + 14), z: sun.z },
+      ]
 
       sortedPlanetPoints.forEach(({ planet, point, angle, index }) => {
         const p = project(point, width, height)
@@ -499,7 +570,7 @@ const SolarSystem = () => {
           ctx.stroke()
         }
 
-        drawPlanetBody(planet, p.x, p.y, radius, state.time * (1.8 + index * 0.14))
+        drawTexturedSphere(planet, p.x, p.y, radius, state.time * (1.8 + index * 0.14))
 
         if (planet.ring) {
           ctx.strokeStyle = 'rgba(255,235,172,0.8)'
@@ -510,16 +581,21 @@ const SolarSystem = () => {
         }
 
         if (planet.moon) {
-          const moonAngle = state.time * 8 + angle
-          const moonPoint = project({
-            x: point.x + Math.cos(moonAngle) * 15,
-            y: point.y + Math.sin(moonAngle) * 5,
-            z: point.z + Math.sin(moonAngle) * 15,
+          const moonPoint = project(moonWorldPoint ?? {
+            x: point.x + Math.cos(angle) * 15,
+            y: point.y,
+            z: point.z + Math.sin(angle) * 15,
           }, width, height)
-          ctx.fillStyle = '#d7d7d7'
-          ctx.beginPath()
-          ctx.arc(moonPoint.x, moonPoint.y, Math.max(1.8, 2.4 * moonPoint.scale), 0, Math.PI * 2)
-          ctx.fill()
+          const moonRadius = Math.max(1.8, 2.4 * moonPoint.scale)
+          const isMoonSelected = selectedName === moonObject.name
+          if (isMoonSelected) {
+            drawGlowCircle(moonPoint.x, moonPoint.y, moonRadius + 2, 'rgba(230,235,245,0.42)', 18)
+          }
+          drawTexturedSphere(moonObject, moonPoint.x, moonPoint.y, moonRadius, state.time * 2.4, 0.24)
+          if (isMoonSelected) {
+            drawLabel(moonObject.vi, moonPoint.x, moonPoint.y + moonRadius + 14, true)
+          }
+          hits.push({ planet: moonObject, x: moonPoint.x, y: moonPoint.y, radius: Math.max(18, moonRadius + 12), z: moonPoint.z })
         }
 
         drawLabel(planet.vi, p.x, p.y + radius + 16, isSelected)
@@ -570,7 +646,7 @@ const SolarSystem = () => {
 
       if (clickedPlanet) {
         setSelectedPlanet(clickedPlanet.planet)
-        state.targetZoom = getPlanetZoom(clickedPlanet.planet)
+        state.targetZoom = getObjectZoom(clickedPlanet.planet)
       }
     }
 
@@ -600,7 +676,7 @@ const SolarSystem = () => {
       canvas.removeEventListener('pointerleave', onPointerUp)
       canvas.removeEventListener('wheel', onWheel)
     }
-  }, [isPlaying, speed])
+  }, [])
 
   const resetView = () => {
     stateRef.current.yaw = -0.45
@@ -610,11 +686,6 @@ const SolarSystem = () => {
     stateRef.current.focus = { x: 0, y: 0, z: 0 }
     stateRef.current.targetFocus = { x: 0, y: 0, z: 0 }
     setSelectedPlanet(null)
-  }
-
-  const focusPlanet = (planet) => {
-    stateRef.current.targetZoom = getPlanetZoom(planet)
-    setSelectedPlanet(planet)
   }
 
   const toggleFullscreen = async () => {
@@ -648,80 +719,74 @@ const SolarSystem = () => {
                 Quay lại
               </button>
 
-              <div className="planet-detail-preview" style={{ '--planet-color': selectedPlanet.color }}>
-                <div className={`planet-detail-sphere ${selectedPlanet.ring ? 'has-ring' : ''}`}>
-                  {selectedPlanet.moon && <span className="planet-detail-moon" />}
+              <div
+                className="planet-detail-preview"
+                style={{
+                  '--planet-color': selectedPlanet.color,
+                  '--planet-texture': `url(${selectedPlanet.texture})`,
+                }}
+              >
+                <div
+                  className={`planet-detail-sphere ${selectedPlanet.ring ? 'has-ring' : ''}`}
+                  style={{
+                    backgroundImage: `linear-gradient(90deg, rgba(0, 0, 0, 0.36), transparent 24%, transparent 66%, rgba(0, 0, 0, 0.5)), radial-gradient(circle at 30% 25%, rgba(255, 255, 255, 0.48), transparent 0 22%, rgba(255, 255, 255, 0.08) 34%, transparent 52%), url(${selectedPlanet.texture})`,
+                  }}
+                >
+                  {selectedPlanet.name === 'Earth' && (
+                    <span
+                      className="planet-detail-moon"
+                      style={{
+                        backgroundImage: `linear-gradient(90deg, rgba(0, 0, 0, 0.34), transparent 42%, rgba(255, 255, 255, 0.18)), url(${moonObject.texture})`,
+                      }}
+                    />
+                  )}
                 </div>
               </div>
 
               <div className="planet-detail-info">
-                <span>Đang quan sát</span>
+                <span>{selectedPlanet.type ?? 'Đang quan sát'}</span>
                 <h3>{selectedPlanet.vi}</h3>
                 <p>{selectedPlanet.note}</p>
                 <ul>
-                  <li><b>Đường kính:</b> {selectedPlanet.diameter}</li>
-                  <li><b>Ngày:</b> {selectedPlanet.day}</li>
-                  <li><b>Năm:</b> {selectedPlanet.year}</li>
-                  <li><b>Khoảng cách TB:</b> {selectedPlanet.distance}</li>
+                  {getObjectDetails(selectedPlanet).map(([label, value]) => (
+                    <li key={label}><b>{label}</b> {value}</li>
+                  ))}
                 </ul>
               </div>
             </div>
           )}
 
-          <div className="solar-system-controls">
-            {/* HÀNG 1: Gom các nút chức năng thành icon tròn/vuông gọn gàng */}
-
+          <div className="solar-system-controls" aria-label="Điều khiển quan sát hệ mặt trời">
             <div className="control-buttons-row">
-              <button type="button" onClick={() => setIsPlaying((value) => !value)} title={isPlaying ? 'Tạm dừng' : 'Chạy tiếp'}>
-                <span className="btn-icon">{isPlaying ? '⏸' : '▶'}</span>
-                <span className="btn-text">{isPlaying ? 'Tạm dừng' : 'Chạy tiếp'}</span>
-              </button>
-              <button type="button" onClick={resetView} title="Đặt lại góc nhìn">
-                <span className="btn-icon">↺</span>
-                <span className="btn-text">Đặt lại góc nhìn</span>
-              </button>
-
-              <button type="button" onClick={toggleFullscreen} title="Toàn màn hình">
+              <button type="button" onClick={toggleFullscreen} title={isFullscreen ? 'Thoát màn hình' : 'Toàn màn hình'}>
                 <span className="btn-icon">{isFullscreen ? '⛶' : '🗖'}</span>
                 <span className="btn-text">{isFullscreen ? 'Thoát màn hình' : 'Toàn màn hình'}</span>
               </button>
 
+              <button type="button" onClick={() => setIsPlaying((value) => !value)} title={isPlaying ? 'Tạm dừng' : 'Tiếp tục'}>
+                <span className="btn-icon">{isPlaying ? '⏸' : '▶'}</span>
+                <span className="btn-text">{isPlaying ? 'Tạm dừng' : 'Tiếp tục'}</span>
+              </button>
+
+              <button type="button" onClick={resetView} title="Đặt lại góc nhìn">
+                <span className="btn-icon">↺</span>
+                <span className="btn-text">Đặt lại góc nhìn</span>
+              </button>
             </div>
 
-            {/* HÀNG 2: Thanh chỉnh tốc độ mảnh mai */}
-            <div className="speed-control-box">
-              <label>
-                {/* Bọc chữ "Tốc độ" vào span để dễ điều khiển bằng CSS */}
-                <span className="speed-label-text">Tốc độ: </span>
-
-                <input
-                  type="range"
-                  min="0.1"
-                  max="5"
-                  step="0.1"
-                  value={speed} /* Hoặc biến tốc độ hiện tại của cậu */
-                  onChange={(e) => setSpeed(parseFloat(e.target.value))}
-                />
-
-                {/* Con số hiển thị (Ví dụ: 1.0x) */}
-                <span className="speed-value">{speed.toFixed(1)}x</span>
-              </label>
-            </div>
+            <label className="speed-control-box">
+              <span className="speed-label-text">Tốc độ</span>
+              <input
+                type="range"
+                min="0.1"
+                max="5"
+                step="0.1"
+                value={speed}
+                onChange={(event) => setSpeed(parseFloat(event.target.value))}
+              />
+              <span className="speed-value">{speed.toFixed(1)}x</span>
+            </label>
           </div>
-        </div>
-
-        <div className="planet-picker" aria-label="Chọn hành tinh">
-          {planets.map((planet) => (
-            <button
-              key={planet.name}
-              type="button"
-              className={selectedPlanet?.name === planet.name ? 'active' : ''}
-              onClick={() => focusPlanet(planet)}
-            >
-              <span style={{ backgroundColor: planet.color }} />
-              {planet.vi}
-            </button>
-          ))}
         </div>
       </div>
     </section>
