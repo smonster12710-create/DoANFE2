@@ -306,88 +306,79 @@ body {
     }
 
     #art {
-        /* Đóng khung chuẩn h-dvh để phục vụ tính năng Pin của GSAP không bị giật lag */
-        @apply relative w-full h-dvh min-h-dvh overflow-hidden flex flex-col items-center justify-between p-4 md:p-12;
+        @apply flex-center flex-col min-h-dvh p-5 mt-20 relative radial-gradient overflow-hidden;
 
-        .container {
-            @apply relative w-full h-full flex flex-col justify-between items-center max-w-7xl mx-auto;
-        }
-
-        /* Tiêu đề chính "Góc Viễn Vọng" */
-        >.container>h2 {
-            @apply text-4xl sm:text-5xl md:text-[12vw] leading-none font-modern-negra text-center text-[#505050] select-none tracking-tight mt-4 md:mt-0 z-10;
+        h2 {
+            @apply relative md:text-[15vw] text-6xl leading-none font-modern-negra text-center text-[#505050] mb-8 select-none tracking-tight;
         }
 
         .content {
-            @apply w-full flex flex-col md:flex-row items-center justify-center gap-12 md:gap-[42vw] my-auto relative h-auto z-10;
-
-            ul:first-of-type {
-                @apply flex flex-col gap-2 text-white w-full max-w-xs md:max-w-[260px] text-left md:text-right;
-
-                li {
-                    @apply flex items-center justify-center md:flex-row-reverse md:justify-start gap-2 text-sm md:text-base;
-
-                    img {
-                        @apply w-4 h-4 object-contain;
-                    }
-
-                    p {
-                        @apply m-0;
-                    }
-                }
-            }
-
-            ul:last-of-type {
-                @apply flex flex-col gap-2 text-white w-full max-w-xs md:max-w-[260px] text-left;
-
-                li {
-                    @apply flex items-center justify-center md:justify-start gap-2 text-sm md:text-base;
-
-                    img {
-                        @apply w-4 h-4 object-contain;
-                    }
-
-                    p {
-                        @apply m-0;
-                    }
-                }
-            }
-
-            /* Viết gọn lại phần Mobile trước */
-            .star-img {
-                /* SỬA: Thêm z-30 để đảm bảo trên Mobile ảnh cũng nằm trên cùng */
-                @apply w-[55vw] aspect-square rounded-2xl overflow-hidden relative mt-4 mb-4 z-30;
-            }
+            @apply flex md:flex-row flex-col justify-between items-center gap-8 md:mb-16 md:mt-0 w-full;
         }
 
-        /* PHASE 2: Khối chữ xuất hiện khi scroll */
+        .star-img {
+            @apply relative my-6 w-[80vw] h-[30vh] md:absolute md:my-0 md:left-1/2 md:-translate-x-1/2 md:w-[35vw] md:h-[45vh] rounded-4xl overflow-hidden z-30;
+        }
+
         .masked-container {
-            @apply absolute inset-0 flex flex-col items-center justify-end pointer-events-none w-full h-full z-20 px-4 pb-8 md:pb-16;
+            h2 {
+                @apply text-4xl md:text-5xl font-modern-negra text-center mb-10 text-white mt-32;
+            }
 
-            #masked-content {
-                @apply opacity-0 flex flex-col items-center justify-center text-center space-y-4 max-w-3xl;
-
-                h2 {
-                    @apply text-2xl sm:text-3xl md:text-5xl font-modern-negra text-white select-none tracking-wide mb-2;
-                }
+            div {
+                @apply opacity-0 absolute left-1/2 -translate-x-1/2 md:bottom-5 bottom-16 md:px-0 px-5 space-y-5;
 
                 h3 {
-                    @apply text-base sm:text-xl md:text-2xl font-serif text-white leading-snug;
+                    @apply md:text-5xl text-2xl text-center font-serif md:w-full w-80 text-white;
                 }
 
                 p {
-                    @apply text-xs sm:text-sm md:text-base text-white/80 max-w-xl leading-relaxed;
+                    @apply text-lg text-center;
                 }
             }
         }
     }
 
-    /* TÁCH RIÊNG ĐOẠN NÀY RA NGOÀI ĐỂ KHÔNG BỊ LỖI PHÂN TÍCH CÚ PHÁP (PARSING) */
+    /* =======================
+   MOBILE
+======================= */
+    @media (max-width: 767px) {
+        #art {
+            min-height: auto;
+            margin-top: 2rem;   
+        }
+
+        #art .content {
+            padding-top: 20px;
+        }
+
+        #art .content .star-img {
+            top: 0;
+        }
+
+        #art h2:first-child {
+            font-size: 3.5rem;
+            z-index: 10;
+        }
+
+        #art .masked-container {
+            margin-top: 40px;
+        }
+    }
+
+    /* =======================
+   DESKTOP
+======================= */
     @media (min-width: 768px) {
         #art .content .star-img {
-            /* SỬA: Đổi md:z-0 thành md:z-30 để ảnh nhảy lên đè lên lớp chữ z-20 */
-            @apply w-[35vw] h-[45vh] aspect-auto absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-30;
+            top: 49%;
+            transform: translate(-0%, -50%);
         }
+
+        #art .content {
+            align-items: center;
+        }
+
     }
 
     #menu {
