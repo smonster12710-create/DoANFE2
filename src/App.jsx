@@ -21,9 +21,9 @@ const App = () => {
 			<Constellations />
 			<About />
 			<Art />
-			<SolarSystem />
+			{/* <SolarSystem />
 
-			<GalaxyExplorer />
+			<GalaxyExplorer /> */}
 			<Contact />
 		</main>
 	)
